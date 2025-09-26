@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Technicien - Gestion Matériel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dashboard_styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="assets/icon/extracted_image.png" alt="Logo" class="logo-image" style="width: 50px; height: 50px; object-fit: contain;">
+        <h2 class="logo-text">Technicien</h2>
+      </div>
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-menu">
+      <div class="menu-section">
+        <h3 class="menu-title">Maintenance</h3>
+        <a href="#" class="menu-item active" data-section="dashboard">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Tableau de bord</span>
+        </a>
+        <a href="#" class="menu-item" data-section="maintenance">
+          <i class="fas fa-tools"></i>
+          <span>Maintenance en cours</span>
+        </a>
+        <a href="#" class="menu-item" data-section="repairs">
+          <i class="fas fa-wrench"></i>
+          <span>Réparations</span>
+        </a>
+        <a href="#" class="menu-item" data-section="inventory">
+          <i class="fas fa-boxes"></i>
+          <span>Inventaire technique</span>
+        </a>
+      </div>
+      
+      <div class="menu-section">
+        <h3 class="menu-title">Gestion</h3>
+        <a href="#" class="menu-item" data-section="schedule">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Planning</span>
+        </a>
+        <a href="#" class="menu-item" data-section="reports">
+          <i class="fas fa-chart-line"></i>
+          <span>Rapports</span>
+        </a>
+        <a href="#" class="menu-item" data-section="parts">
+          <i class="fas fa-cogs"></i>
+          <span>Pièces détachées</span>
+        </a>
+      </div>
+      
+      <div class="menu-section">
+        <h3 class="menu-title">Support</h3>
+        <a href="#" class="menu-item" data-section="chatbot">
+          <i class="fas fa-robot"></i>
+          <span>Assistant IA</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Déconnexion</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="page-title">Tableau de bord</h1>
+      </div>
+      
+      <div class="header-right">
+        <div class="user-info">
+          <div class="user-avatar">
+            <i class="fas fa-user-cog"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name">Technicien</span>
+            <span class="user-role">Maintenance</span>
+          </div>
+        </div>
+  </div>
+</header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Dashboard Overview -->
+      <section id="dashboard-section" class="content-section active">
+        <div class="section-header">
+          <h2>Vue d'ensemble</h2>
+          <p>Bienvenue dans votre tableau de bord technique</p>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-tools"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">8</h3>
+              <p class="stat-label">Maintenance en cours</p>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+2</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">24</h3>
+              <p class="stat-label">Réparations terminées</p>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+5</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">3.2</h3>
+              <p class="stat-label">Temps moyen (jours)</p>
+            </div>
+            <div class="stat-trend negative">
+              <i class="fas fa-arrow-down"></i>
+              <span>-0.5</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">2</h3>
+              <p class="stat-label">Urgences</p>
+            </div>
+            <div class="stat-trend neutral">
+              <i class="fas fa-minus"></i>
+              <span>0</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <h3>Actions rapides</h3>
+          <div class="actions-grid">
+            <button class="action-btn" onclick="showSection('maintenance')">
+              <i class="fas fa-tools"></i>
+              <span>Démarrer maintenance</span>
+            </button>
+            <button class="action-btn" onclick="showSection('repairs')">
+              <i class="fas fa-wrench"></i>
+              <span>Nouvelle réparation</span>
+            </button>
+            <button class="action-btn" onclick="showSection('inventory')">
+              <i class="fas fa-search"></i>
+              <span>Vérifier stock</span>
+            </button>
+            <button class="action-btn" onclick="showSection('schedule')">
+              <i class="fas fa-calendar-plus"></i>
+              <span>Planifier intervention</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Recent Maintenance -->
+        <div class="data-section">
+          <h3>Maintenance récente</h3>
+          <div class="recent-maintenance">
+            <div class="maintenance-item urgent">
+              <div class="maintenance-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <div class="maintenance-content">
+                <div class="maintenance-title">PC Portable Dell - Écran cassé</div>
+                <div class="maintenance-details">
+                  <span class="maintenance-priority">Urgente</span>
+                  <span class="maintenance-time">Il y a 1 heure</span>
+                </div>
+              </div>
+              <div class="maintenance-status">
+                <span class="badge badge-urgent">En attente</span>
+              </div>
+            </div>
+            <div class="maintenance-item">
+              <div class="maintenance-icon">
+                <i class="fas fa-tools"></i>
+              </div>
+              <div class="maintenance-content">
+                <div class="maintenance-title">Caméra Sony - Objectif défectueux</div>
+                <div class="maintenance-details">
+                  <span class="maintenance-priority">Normale</span>
+                  <span class="maintenance-time">Il y a 3 heures</span>
+                </div>
+              </div>
+              <div class="maintenance-status">
+                <span class="badge badge-en-cours">En cours</span>
+              </div>
+            </div>
+            <div class="maintenance-item">
+              <div class="maintenance-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="maintenance-content">
+                <div class="maintenance-title">Microphone Shure - Câble remplacé</div>
+                <div class="maintenance-details">
+                  <span class="maintenance-priority">Basse</span>
+                  <span class="maintenance-time">Il y a 6 heures</span>
+                </div>
+              </div>
+              <div class="maintenance-status">
+                <span class="badge badge-terminé">Terminé</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Technical Summary -->
+        <div class="summary-stats">
+          <div class="summary-card">
+            <h4>Efficacité</h4>
+            <p class="summary-number">94%</p>
+            <p class="summary-period">Ce mois</p>
+          </div>
+          <div class="summary-card">
+            <h4>Pièces utilisées</h4>
+            <p class="summary-number">18</p>
+            <p class="summary-period">Ce mois</p>
+          </div>
+          <div class="summary-card">
+            <h4>Interventions</h4>
+            <p class="summary-number">32</p>
+            <p class="summary-period">Ce mois</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Maintenance Section -->
+      <section id="maintenance-section" class="content-section">
+        <div class="section-header">
+          <h2>Maintenance en cours</h2>
+          <button class="btn-primary" onclick="addMaintenance()">
+            <i class="fas fa-plus"></i>
+            Nouvelle maintenance
+          </button>
+        </div>
+        
+        <!-- Maintenance Form -->
+        <div class="form-card">
+          <h3>Démarrer une maintenance</h3>
+          <form id="maintenanceForm" class="modern-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="materielId">Matériel concerné</label>
+                <select id="materielId" required>
+                  <option value="">Sélectionner un matériel</option>
+                  <option value="1">PC Portable Dell</option>
+                  <option value="2">Caméra Sony HD</option>
+                  <option value="3">Microphone Shure</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="typeMaintenance">Type de maintenance</label>
+                <select id="typeMaintenance" required>
+                  <option value="">Sélectionner le type</option>
+                  <option value="preventive">Préventive</option>
+                  <option value="corrective">Corrective</option>
+                  <option value="urgente">Urgente</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="descriptionMaintenance">Description du problème</label>
+              <textarea id="descriptionMaintenance" placeholder="Décrivez le problème et la solution prévue..." rows="4" required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dateDebut">Date de début</label>
+                <input type="datetime-local" id="dateDebut" required />
+              </div>
+              <div class="form-group">
+                <label for="dureeEstimee">Durée estimée (heures)</label>
+                <input type="number" id="dureeEstimee" min="1" max="168" placeholder="Ex: 4" required />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-play"></i>
+                Démarrer la maintenance
+              </button>
+              <button type="reset" class="btn-secondary">
+                <i class="fas fa-undo"></i>
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Maintenance List -->
+        <div class="data-section">
+          <h3>Liste des maintenances</h3>
+          <div id="maintenanceList" class="data-table-container">
+            <div class="loading-spinner">Chargement...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Repairs Section -->
+      <section id="repairs-section" class="content-section">
+        <div class="section-header">
+          <h2>Gestion des réparations</h2>
+          <button class="btn-primary" onclick="addRepair()">
+            <i class="fas fa-plus"></i>
+            Nouvelle réparation
+          </button>
+        </div>
+        
+        <!-- Repair Form -->
+        <div class="form-card">
+          <h3>Enregistrer une réparation</h3>
+          <form id="repairForm" class="modern-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="materielRepair">Matériel réparé</label>
+                <select id="materielRepair" required>
+                  <option value="">Sélectionner un matériel</option>
+                  <option value="1">PC Portable Dell</option>
+                  <option value="2">Caméra Sony HD</option>
+                  <option value="3">Microphone Shure</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="techniqueUtilisee">Technique utilisée</label>
+                <select id="techniqueUtilisee" required>
+                  <option value="">Sélectionner la technique</option>
+                  <option value="remplacement">Remplacement</option>
+                  <option value="reparation">Réparation</option>
+                  <option value="nettoyage">Nettoyage</option>
+                  <option value="calibrage">Calibrage</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="piecesUtilisees">Pièces utilisées</label>
+              <textarea id="piecesUtilisees" placeholder="Listez les pièces détachées utilisées..." rows="3"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="coutReparation">Coût de la réparation</label>
+                <input type="number" id="coutReparation" min="0" step="0.01" placeholder="Ex: 45.50" />
+              </div>
+              <div class="form-group">
+                <label for="tempsReparation">Temps de réparation (heures)</label>
+                <input type="number" id="tempsReparation" min="0.5" step="0.5" placeholder="Ex: 2.5" required />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i>
+                Enregistrer la réparation
+              </button>
+              <button type="reset" class="btn-secondary">
+                <i class="fas fa-undo"></i>
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Repairs History -->
+        <div class="data-section">
+          <h3>Historique des réparations</h3>
+          <div id="repairsHistory" class="data-table-container">
+            <div class="loading-spinner">Chargement...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inventory Section -->
+      <section id="inventory-section" class="content-section">
+        <div class="section-header">
+          <h2>Inventaire technique</h2>
+          <button class="btn-primary" onclick="addPart()">
+            <i class="fas fa-plus"></i>
+            Ajouter une pièce
+          </button>
+        </div>
+        
+        <!-- Parts Management -->
+        <div class="form-card">
+          <h3>Gestion des pièces détachées</h3>
+          <form id="partsForm" class="modern-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nomPiece">Nom de la pièce</label>
+                <input type="text" id="nomPiece" placeholder="Ex: Écran LCD 15.6" required />
+              </div>
+              <div class="form-group">
+                <label for="categoriePiece">Catégorie</label>
+                <select id="categoriePiece" required>
+                  <option value="">Sélectionner une catégorie</option>
+                  <option value="ecran">Écrans</option>
+                  <option value="clavier">Claviers</option>
+                  <option value="batterie">Batteries</option>
+                  <option value="cable">Câbles</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="quantitePiece">Quantité</label>
+                <input type="number" id="quantitePiece" min="0" placeholder="Ex: 5" required />
+              </div>
+              <div class="form-group">
+                <label for="seuilAlerte">Seuil d'alerte</label>
+                <input type="number" id="seuilAlerte" min="0" placeholder="Ex: 2" required />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-plus"></i>
+                Ajouter la pièce
+              </button>
+              <button type="reset" class="btn-secondary">
+                <i class="fas fa-undo"></i>
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Parts List -->
+        <div class="data-section">
+          <h3>Stock des pièces</h3>
+          <div id="partsList" class="data-table-container">
+            <div class="loading-spinner">Chargement...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Schedule Section -->
+      <section id="schedule-section" class="content-section">
+        <div class="section-header">
+          <h2>Planning des interventions</h2>
+          <button class="btn-primary" onclick="addSchedule()">
+            <i class="fas fa-plus"></i>
+            Planifier intervention
+          </button>
+        </div>
+        
+        <!-- Schedule Form -->
+        <div class="form-card">
+          <h3>Planifier une intervention</h3>
+          <form id="scheduleForm" class="modern-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="materielSchedule">Matériel concerné</label>
+                <select id="materielSchedule" required>
+                  <option value="">Sélectionner un matériel</option>
+                  <option value="1">PC Portable Dell</option>
+                  <option value="2">Caméra Sony HD</option>
+                  <option value="3">Microphone Shure</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="typeIntervention">Type d'intervention</label>
+                <select id="typeIntervention" required>
+                  <option value="">Sélectionner le type</option>
+                  <option value="maintenance">Maintenance</option>
+                  <option value="reparation">Réparation</option>
+                  <option value="verification">Vérification</option>
+                  <option value="installation">Installation</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dateIntervention">Date et heure</label>
+                <input type="datetime-local" id="dateIntervention" required />
+              </div>
+              <div class="form-group">
+                <label for="dureeIntervention">Durée estimée</label>
+                <select id="dureeIntervention" required>
+                  <option value="">Sélectionner la durée</option>
+                  <option value="1">1 heure</option>
+                  <option value="2">2 heures</option>
+                  <option value="4">4 heures</option>
+                  <option value="8">1 jour</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="notesIntervention">Notes</label>
+              <textarea id="notesIntervention" placeholder="Notes supplémentaires..." rows="3"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-calendar-plus"></i>
+                Planifier l'intervention
+              </button>
+              <button type="reset" class="btn-secondary">
+                <i class="fas fa-undo"></i>
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Schedule Calendar -->
+        <div class="data-section">
+          <h3>Calendrier des interventions</h3>
+          <div id="scheduleCalendar" class="schedule-container">
+            <div class="loading-spinner">Chargement du calendrier...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reports Section -->
+      <section id="reports-section" class="content-section">
+        <div class="section-header">
+          <h2>Rapports techniques</h2>
+          <button class="btn-secondary" onclick="exportReport()">
+            <i class="fas fa-download"></i>
+            Exporter le rapport
+          </button>
+        </div>
+        
+        <!-- Technical Charts -->
+        <div class="reports-grid">
+          <div class="report-card">
+            <h3>Maintenance par type</h3>
+            <canvas id="maintenanceChart" width="400" height="200"></canvas>
+          </div>
+          <div class="report-card">
+            <h3>Temps de réparation</h3>
+            <canvas id="repairTimeChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+        
+        <!-- Technical Summary -->
+        <div class="summary-stats">
+          <div class="summary-card">
+            <h4>Maintenance préventive</h4>
+            <p class="summary-number">65%</p>
+            <p class="summary-period">Ce mois</p>
+          </div>
+          <div class="summary-card">
+            <h4>Coût moyen</h4>
+            <p class="summary-number">€28.50</p>
+            <p class="summary-period">Par réparation</p>
+          </div>
+          <div class="summary-card">
+            <h4>Satisfaction client</h4>
+            <p class="summary-number">4.8/5</p>
+            <p class="summary-period">Note moyenne</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Parts Section -->
+      <section id="parts-section" class="content-section">
+        <div class="section-header">
+          <h2>Gestion des pièces détachées</h2>
+          <button class="btn-primary" onclick="addPart()">
+            <i class="fas fa-plus"></i>
+            Ajouter une pièce
+          </button>
+        </div>
+        
+        <!-- Parts Overview -->
+        <div class="parts-overview">
+          <div class="parts-summary">
+            <div class="parts-card">
+              <h4>Stock total</h4>
+              <p class="parts-number">156</p>
+              <p class="parts-label">Pièces disponibles</p>
+            </div>
+            <div class="parts-card">
+              <h4>Valeur totale</h4>
+              <p class="parts-number">€2,450</p>
+              <p class="parts-label">Valeur du stock</p>
+            </div>
+            <div class="parts-card">
+              <h4>Alertes</h4>
+              <p class="parts-number">3</p>
+              <p class="parts-label">Stock faible</p>
+  </div>
+  </div>
+</div>
+        
+        <!-- Parts List -->
+        <div class="data-section">
+          <h3>Détail du stock</h3>
+          <div id="partsDetailList" class="data-table-container">
+            <div class="loading-spinner">Chargement...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chatbot Section -->
+      <section id="chatbot-section" class="content-section">
+        <div class="section-header">
+          <h2>Assistant IA</h2>
+        </div>
+        <div class="chatbot-container">
+          <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+              <div class="message-content">
+                <p>Bonjour ! Je suis votre assistant intelligent pour la maintenance. Je peux vous aider avec vos interventions planifiées, ajouter des rapports de maintenance, gérer les demandes d'équipement, et vérifier l'historique de maintenance. Comment puis-je vous aider aujourd'hui ?</p>
+              </div>
+            </div>
+          </div>
+          <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Tapez votre message..." class="chat-input">
+            <button onclick="sendChatbotMessage()" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Floating Action Button -->
+  <button class="fab" id="fab" onclick="quickAction()">
+    <i class="fas fa-tools"></i>
+  </button>
+
+  <script src="js/technician-dashboard.js"></script>
+</body>
+</html>

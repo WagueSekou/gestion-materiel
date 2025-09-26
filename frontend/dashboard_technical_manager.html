@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Responsable Technique</title>
+    <link rel="stylesheet" href="css/dashboard_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/icon/extracted_image.png" alt="Logo" class="logo">
+                <h2>Gestion Matériel</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</a></li>
+                <li><a href="#equipment-management" data-section="equipment-management"><i class="fas fa-laptop"></i> Gestion Équipements</a></li>
+                <li><a href="#statistics" data-section="statistics"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                <li><a href="#allocation-tracking" data-section="allocation-tracking"><i class="fas fa-users"></i> Suivi Allocations</a></li>
+                <li><a href="#service-scheduling" data-section="service-scheduling"><i class="fas fa-calendar-alt"></i> Planification Services</a></li>
+                <li><a href="#equipment-requests" data-section="equipment-requests"><i class="fas fa-clipboard-list"></i> Demandes Équipement</a></li>
+                <li><a href="#fault-reports" data-section="fault-reports"><i class="fas fa-exclamation-triangle"></i> Rapports de Panne</a></li>
+                <li><a href="#chatbot" data-section="chatbot"><i class="fas fa-robot"></i> Assistant IA</a></li>
+                <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1>Tableau de Bord - Responsable Technique</h1>
+                </div>
+                <div class="header-right">
+                    <span class="user-info" id="userInfo"></span>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalEquipment">0</h3>
+                            <p>Équipements Total</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="availableEquipment">0</h3>
+                            <p>Disponibles</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="maintenanceEquipment">0</h3>
+                            <p>En Maintenance</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="pendingRequests">0</h3>
+                            <p>Demandes en Attente</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Demandes Récentes</h3>
+                        <div id="recentRequests" class="request-list">
+                            <!-- Recent requests will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Pannes Récentes</h3>
+                        <div id="recentFaults" class="fault-list">
+                            <!-- Recent faults will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Equipment Management Section -->
+            <section id="equipment-management" class="content-section">
+                <div class="section-header">
+                    <h2>Gestion des Équipements</h2>
+                    <button class="btn btn-primary" onclick="openCreateEquipmentModal()">
+                        <i class="fas fa-plus"></i> Ajouter Équipement
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Numéro de Série</th>
+                                <th>Statut</th>
+                                <th>Localisation</th>
+                                <th>Assigné à</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipmentTableBody">
+                            <!-- Equipment will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section id="statistics" class="content-section">
+                <div class="section-header">
+                    <h2>Statistiques</h2>
+                    <div class="export-actions">
+                        <button class="btn btn-success" onclick="exportReport('pdf')">
+                            <i class="fas fa-file-pdf"></i> Exporter PDF
+                        </button>
+                        <button class="btn btn-info" onclick="exportReport('excel')">
+                            <i class="fas fa-file-excel"></i> Exporter Excel
+                        </button>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="chart-container">
+                        <canvas id="equipmentStatusChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="equipmentTypeChart"></canvas>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="chart-container">
+                        <canvas id="maintenanceChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="allocationChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Allocation Tracking Section -->
+            <section id="allocation-tracking" class="content-section">
+                <div class="section-header">
+                    <h2>Suivi des Allocations</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Équipement</th>
+                                <th>Utilisateur</th>
+                                <th>Date d'Allocation</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allocationTableBody">
+                            <!-- Allocations will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Service Scheduling Section -->
+            <section id="service-scheduling" class="content-section">
+                <div class="section-header">
+                    <h2>Planification des Services</h2>
+                    <button class="btn btn-primary" onclick="openScheduleServiceModal()">
+                        <i class="fas fa-plus"></i> Planifier Service
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Équipement</th>
+                                <th>Type de Service</th>
+                                <th>Technicien</th>
+                                <th>Date Planifiée</th>
+                                <th>Priorité</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="serviceScheduleTableBody">
+                            <!-- Service schedule will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Equipment Requests Section -->
+            <section id="equipment-requests" class="content-section">
+                <div class="section-header">
+                    <h2>Demandes d'Équipement</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Demandeur</th>
+                                <th>Type d'Équipement</th>
+                                <th>Description</th>
+                                <th>Priorité</th>
+                                <th>Statut</th>
+                                <th>Date de Demande</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTableBody">
+                            <!-- Requests will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Fault Reports Section -->
+            <section id="fault-reports" class="content-section">
+                <div class="section-header">
+                    <h2>Rapports de Panne</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Équipement</th>
+                                <th>Type de Panne</th>
+                                <th>Description</th>
+                                <th>Gravité</th>
+                                <th>Statut</th>
+                                <th>Technicien Assigné</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="faultReportsTableBody">
+                            <!-- Fault reports will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Chatbot Section -->
+            <section id="chatbot" class="content-section">
+                <div class="section-header">
+                    <h2>Assistant IA</h2>
+                </div>
+                <div class="chatbot-container">
+                    <div class="chatbot-messages" id="chatbotMessages">
+                        <div class="message bot-message">
+                            <div class="message-content">
+                                <p>Bonjour ! Je suis votre assistant intelligent pour la gestion technique. Je peux vous aider avec la gestion des équipements, les statistiques, la planification des services, et bien plus encore. Comment puis-je vous aider aujourd'hui ?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbot-input">
+                        <input type="text" id="chatbotInput" placeholder="Tapez votre message..." class="chat-input">
+                        <button onclick="sendChatbotMessage()" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Equipment Modal -->
+    <div id="createEquipmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajouter un Équipement</h3>
+                <span class="close" onclick="closeModal('createEquipmentModal')">&times;</span>
+            </div>
+            <form id="createEquipmentForm">
+                <div class="form-group">
+                    <label for="equipmentName">Nom *</label>
+                    <input type="text" id="equipmentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="equipmentType">Type *</label>
+                    <select id="equipmentType" required>
+                        <option value="">Sélectionner un type</option>
+                        <option value="Ordinateur">Ordinateur</option>
+                        <option value="Caméra">Caméra</option>
+                        <option value="Microphone">Microphone</option>
+                        <option value="Écran">Écran</option>
+                        <option value="Clavier">Clavier</option>
+                        <option value="Souris">Souris</option>
+                        <option value="Câble">Câble</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="equipmentSerialNumber">Numéro de Série</label>
+                    <input type="text" id="equipmentSerialNumber">
+                </div>
+                <div class="form-group">
+                    <label for="equipmentLocation">Localisation *</label>
+                    <input type="text" id="equipmentLocation" required>
+                </div>
+                <div class="form-group">
+                    <label for="equipmentDescription">Description</label>
+                    <textarea id="equipmentDescription"></textarea>
+                </div>
+            </form>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('createEquipmentModal')">Annuler</button>
+                <button type="button" class="btn btn-primary" onclick="submitCreateEquipment()">Créer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Service Modal -->
+    <div id="scheduleServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Planifier un Service</h3>
+                <span class="close" onclick="closeModal('scheduleServiceModal')">&times;</span>
+            </div>
+            <form id="scheduleServiceForm">
+                <div class="form-group">
+                    <label for="serviceEquipment">Équipement *</label>
+                    <select id="serviceEquipment" required>
+                        <option value="">Sélectionner un équipement</option>
+                        <!-- Equipment options will be loaded here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serviceType">Type de Service *</label>
+                    <select id="serviceType" required>
+                        <option value="">Sélectionner un type</option>
+                        <option value="preventive">Préventive</option>
+                        <option value="corrective">Corrective</option>
+                        <option value="urgente">Urgente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serviceTechnician">Technicien *</label>
+                    <select id="serviceTechnician" required>
+                        <option value="">Sélectionner un technicien</option>
+                        <!-- Technician options will be loaded here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serviceDate">Date Planifiée *</label>
+                    <input type="datetime-local" id="serviceDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="servicePriority">Priorité</label>
+                    <select id="servicePriority">
+                        <option value="normale">Normale</option>
+                        <option value="haute">Haute</option>
+                        <option value="critique">Critique</option>
+                        <option value="basse">Basse</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serviceDescription">Description *</label>
+                    <textarea id="serviceDescription" required></textarea>
+                </div>
+            </form>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('scheduleServiceModal')">Annuler</button>
+                <button type="button" class="btn btn-primary" onclick="submitScheduleService()">Planifier</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api-service.js"></script>
+    <script src="js/technical-manager-dashboard.js"></script>
+</body>
+</html>

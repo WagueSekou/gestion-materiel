@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin - Gestion Matériel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dashboard_styles.css">
+  <link rel="stylesheet" href="css/auth-styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="assets/icon/extracted_image.png" alt="Logo" class="logo-image" style="width: 50px; height: 50px; object-fit: contain;">
+        <h2 class="logo-text">Administrateur</h2>
+      </div>
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-menu">
+      <div class="menu-section">
+        <h3 class="menu-title">Gestion</h3>
+        <a href="#" class="menu-item active" data-section="dashboard">
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Tableau de bord</span>
+        </a>
+        <a href="#" class="menu-item" data-section="users">
+          <i class="fas fa-users"></i>
+          <span>Utilisateurs</span>
+        </a>
+        <a href="#" class="menu-item" data-section="materials">
+          <i class="fas fa-desktop"></i>
+          <span>Matériels</span>
+        </a>
+        <a href="#" class="menu-item" data-section="allocations">
+          <i class="fas fa-handshake"></i>
+          <span>Allocations</span>
+        </a>
+        <a href="#" class="menu-item" data-section="maintenance">
+          <i class="fas fa-wrench"></i>
+          <span>Maintenance</span>
+        </a>
+      </div>
+      
+      <div class="menu-section">
+        <h3 class="menu-title">Rapports</h3>
+        <a href="#" class="menu-item" data-section="reports">
+          <i class="fas fa-chart-line"></i>
+          <span>Statistiques</span>
+        </a>
+        <a href="#" class="menu-item" data-section="logs">
+          <i class="fas fa-file-alt"></i>
+          <span>Logs</span>
+        </a>
+      </div>
+      
+      <div class="menu-section">
+        <h3 class="menu-title">Support</h3>
+        <a href="#" class="menu-item" data-section="chatbot">
+          <i class="fas fa-robot"></i>
+          <span>Assistant IA</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Déconnexion</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="page-title">Tableau de bord</h1>
+      </div>
+      
+      <div class="header-right">
+        <div class="user-info">
+          <div class="user-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name">Administrateur</span>
+            <span class="user-role">Admin</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Dashboard Overview -->
+      <section id="dashboard-section" class="content-section active">
+        <div class="section-header">
+          <h2>Vue d'ensemble</h2>
+          <p>Bienvenue dans votre tableau de bord administrateur</p>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">0</h3>
+              <p class="stat-label">Utilisateurs actifs</p>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+12%</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-desktop"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">0</h3>
+              <p class="stat-label">Matériels</p>
+            </div>
+            <div class="stat-trend positive">
+              <i class="fas fa-arrow-up"></i>
+              <span>+8%</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">0</h3>
+              <p class="stat-label">Allocations actives</p>
+            </div>
+            <div class="stat-trend neutral">
+              <i class="fas fa-minus"></i>
+              <span>0%</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-wrench"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">0</h3>
+              <p class="stat-label">Maintenance en cours</p>
+            </div>
+            <div class="stat-trend negative">
+              <i class="fas fa-arrow-down"></i>
+              <span>-3%</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <h3>Actions rapides</h3>
+          <div class="actions-grid">
+            <button class="action-btn" onclick="showSection('users')">
+              <i class="fas fa-user-plus"></i>
+              <span>Ajouter un utilisateur</span>
+            </button>
+            <button class="action-btn" onclick="showSection('materials')">
+              <i class="fas fa-plus"></i>
+              <span>Ajouter du matériel</span>
+            </button>
+            <button class="action-btn" onclick="showSection('allocations')">
+              <i class="fas fa-handshake"></i>
+              <span>Gérer les allocations</span>
+            </button>
+            <button class="action-btn" onclick="showSection('reports')">
+              <i class="fas fa-chart-bar"></i>
+              <span>Voir les rapports</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="data-section">
+          <h3>Activité récente</h3>
+          <div class="recent-activity">
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Nouvel utilisateur inscrit</div>
+                <div class="activity-details">
+                  <span class="activity-user">Marie Dubois</span>
+                  <span class="activity-time">Il y a 2 heures</span>
+                </div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-desktop"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Matériel ajouté</div>
+                <div class="activity-details">
+                  <span class="activity-user">Caméra Sony HD</span>
+                  <span class="activity-time">Il y a 4 heures</span>
+                </div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-handshake"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Allocation créée</div>
+                <div class="activity-details">
+                  <span class="activity-user">PC Portable → Jean Martin</span>
+                  <span class="activity-time">Il y a 6 heures</span>
+                </div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-wrench"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Maintenance signalée</div>
+                <div class="activity-details">
+                  <span class="activity-user">Microphone Shure</span>
+                  <span class="activity-time">Il y a 8 heures</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- System Status -->
+        <div class="summary-stats">
+          <div class="summary-card">
+            <h4>Utilisateurs en ligne</h4>
+            <p class="summary-number">8</p>
+            <p class="summary-period">Actuellement</p>
+          </div>
+          <div class="summary-card">
+            <h4>Matériel disponible</h4>
+            <p class="summary-number">67</p>
+            <p class="summary-period">Sur 156 total</p>
+          </div>
+          <div class="summary-card">
+            <h4>Maintenance urgente</h4>
+            <p class="summary-number">2</p>
+            <p class="summary-period">En attente</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Users Section -->
+      <section id="users-section" class="content-section">
+        <div class="section-header">
+          <h2>Gestion des utilisateurs</h2>
+          <button class="btn-primary" onclick="addUser()">
+            <i class="fas fa-plus"></i>
+            Ajouter un utilisateur
+          </button>
+        </div>
+        <div id="user-list" class="data-table-container">
+          <div class="loading-spinner">Chargement...</div>
+        </div>
+      </section>
+
+      <!-- Materials Section -->
+      <section id="materials-section" class="content-section">
+        <div class="section-header">
+          <h2>Gestion du matériel</h2>
+          <button class="btn-primary" onclick="addMaterial()">
+            <i class="fas fa-plus"></i>
+            Ajouter du matériel
+          </button>
+        </div>
+        <div id="material-list" class="data-table-container">
+          <div class="loading-spinner">Chargement...</div>
+        </div>
+      </section>
+
+      <!-- Allocations Section -->
+      <section id="allocations-section" class="content-section">
+        <div class="section-header">
+          <h2>Gestion des allocations</h2>
+          <button class="btn-primary" onclick="addAllocation()">
+            <i class="fas fa-plus"></i>
+            Nouvelle allocation
+          </button>
+        </div>
+        <div id="allocation-list" class="data-table-container">
+          <div class="loading-spinner">Chargement...</div>
+        </div>
+      </section>
+
+      <!-- Maintenance Section -->
+      <section id="maintenance-section" class="content-section">
+        <div class="section-header">
+          <h2>Gestion de la maintenance</h2>
+          <button class="btn-primary" onclick="addMaintenance()">
+            <i class="fas fa-plus"></i>
+            Nouvelle maintenance
+          </button>
+        </div>
+        <div id="maintenance-list" class="data-table-container">
+          <div class="loading-spinner">Chargement...</div>
+        </div>
+      </section>
+
+      <!-- Reports Section -->
+      <section id="reports-section" class="content-section">
+        <div class="section-header">
+          <h2>Rapports et statistiques</h2>
+          <div class="export-actions">
+            <button class="btn-secondary" id="exportPdfBtn" onclick="exportReport()">
+              <i class="fas fa-file-pdf"></i>
+              <span class="btn-text">Exporter PDF</span>
+              <i class="fas fa-spinner fa-spin loading-icon" style="display: none;"></i>
+            </button>
+            <button class="btn-outline" onclick="exportExcel()">
+              <i class="fas fa-file-excel"></i>
+              <span>Exporter Excel</span>
+            </button>
+          </div>
+        </div>
+        <div class="reports-grid">
+          <div class="report-card">
+            <h3>Utilisation du matériel</h3>
+            <canvas id="usageChart" width="400" height="200"></canvas>
+          </div>
+          <div class="report-card">
+            <h3>Allocations par mois</h3>
+            <canvas id="allocationChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Logs Section -->
+      <section id="logs-section" class="content-section">
+        <div class="section-header">
+          <h2>Logs système</h2>
+          <button class="btn-secondary" onclick="refreshLogs()">
+            <i class="fas fa-sync"></i>
+            Actualiser
+          </button>
+        </div>
+        <div id="logs-list" class="logs-container">
+          <div class="loading-spinner">Chargement...</div>
+        </div>
+      </section>
+
+      <!-- Chatbot Section -->
+      <section id="chatbot-section" class="content-section">
+        <div class="section-header">
+          <h2>Assistant IA</h2>
+        </div>
+        <div class="chatbot-container">
+          <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+              <div class="message-content">
+                <p>Bonjour ! Je suis votre assistant intelligent pour l'administration. Je peux vous aider avec la gestion des utilisateurs, les mises à jour système, les statistiques, et bien plus encore. Comment puis-je vous aider aujourd'hui ?</p>
+              </div>
+            </div>
+          </div>
+          <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Tapez votre message..." class="chat-input">
+            <button onclick="sendChatbotMessage()" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Create User Modal -->
+  <div id="createUserModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Ajouter un utilisateur</h3>
+        <button class="modal-close" onclick="closeModal('createUserModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="createUserForm" class="modal-form">
+        <div class="form-row">
+          <label for="cu_name">Nom complet</label>
+          <input id="cu_name" name="name" type="text" placeholder="Nom complet" required />
+        </div>
+        <div class="form-row">
+          <label for="cu_email">Email</label>
+          <input id="cu_email" name="email" type="email" placeholder="adresse@email.com" required />
+        </div>
+        <div class="form-row">
+          <label for="cu_password">Mot de passe</label>
+          <input id="cu_password" name="password" type="password" placeholder="Mot de passe" required />
+        </div>
+        <div class="form-row">
+          <label for="cu_role">Rôle</label>
+          <select id="cu_role" name="role" required>
+            <option value="">Sélectionner un rôle</option>
+            <option value="utilisateur">Utilisateur</option>
+            <option value="media_employee">Employé Média</option>
+            <option value="technicien">Technicien</option>
+            <option value="technical_manager">Responsable Technique</option>
+            <option value="admin">Administrateur</option>
+          </select>
+        </div>
+      </form>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="submitCreateUser()">
+          <i class="fas fa-user-plus"></i> Créer
+        </button>
+        <button type="button" class="btn-outline" onclick="closeModal('createUserModal')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div id="editUserModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Modifier l'utilisateur</h3>
+        <button class="modal-close" onclick="closeModal('editUserModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="editUserForm" class="modal-form">
+        <input type="hidden" id="eu_id" />
+        <div class="form-row">
+          <label for="eu_name">Nom complet</label>
+          <input id="eu_name" name="name" type="text" placeholder="Nom complet" required />
+        </div>
+        <div class="form-row">
+          <label for="eu_email">Email</label>
+          <input id="eu_email" name="email" type="email" placeholder="adresse@email.com" required />
+        </div>
+        <div class="form-row">
+          <label for="eu_role">Rôle</label>
+          <select id="eu_role" name="role" required>
+            <option value="utilisateur">Utilisateur</option>
+            <option value="media_employee">Employé Média</option>
+            <option value="technicien">Technicien</option>
+            <option value="technical_manager">Responsable Technique</option>
+            <option value="admin">Administrateur</option>
+          </select>
+        </div>
+      </form>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="submitUpdateUser()">
+          <i class="fas fa-save"></i> Enregistrer
+        </button>
+        <button type="button" class="btn-outline" onclick="closeModal('editUserModal')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Material Modal -->
+  <div id="createMaterialModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Ajouter du matériel</h3>
+        <button class="modal-close" onclick="closeModal('createMaterialModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="createMaterialForm" class="modal-form">
+        <div class="form-row">
+          <label for="cm_name">Nom</label>
+          <input id="cm_name" name="name" type="text" placeholder="Nom du matériel" required />
+        </div>
+        <div class="form-row">
+          <label for="cm_type">Type</label>
+          <select id="cm_type" name="type" required>
+            <option value="">Sélectionner un type</option>
+            <option value="Ordinateur">Ordinateur</option>
+            <option value="Caméra">Caméra</option>
+            <option value="Microphone">Microphone</option>
+            <option value="Écran">Écran</option>
+            <option value="Clavier">Clavier</option>
+            <option value="Souris">Souris</option>
+            <option value="Câble">Câble</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="cm_location">Localisation</label>
+          <input id="cm_location" name="location" type="text" placeholder="Localisation" required />
+        </div>
+        <div class="form-row">
+          <label for="cm_description">Description (optionnel)</label>
+          <input id="cm_description" name="description" type="text" placeholder="Brève description" />
+        </div>
+        <div class="form-row">
+          <label for="cm_serial">N° de série (optionnel)</label>
+          <input id="cm_serial" name="serialNumber" type="text" placeholder="Numéro de série" />
+        </div>
+      </form>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="submitCreateMaterial()">
+          <i class="fas fa-plus"></i> Créer
+        </button>
+        <button type="button" class="btn-outline" onclick="closeModal('createMaterialModal')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Material Modal -->
+  <div id="editMaterialModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Modifier le matériel</h3>
+        <button class="modal-close" onclick="closeModal('editMaterialModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="editMaterialForm" class="modal-form">
+        <input type="hidden" id="em_id" />
+        <div class="form-row">
+          <label for="em_name">Nom</label>
+          <input id="em_name" name="name" type="text" placeholder="Nom du matériel" required />
+        </div>
+        <div class="form-row">
+          <label for="em_type">Type</label>
+          <select id="em_type" name="type" required>
+            <option value="Ordinateur">Ordinateur</option>
+            <option value="Caméra">Caméra</option>
+            <option value="Microphone">Microphone</option>
+            <option value="Écran">Écran</option>
+            <option value="Clavier">Clavier</option>
+            <option value="Souris">Souris</option>
+            <option value="Câble">Câble</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="em_status">Statut</label>
+          <select id="em_status" name="status" required>
+            <option value="disponible">Disponible</option>
+            <option value="affecté">Affecté</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="hors_service">Hors service</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="em_location">Localisation</label>
+          <input id="em_location" name="location" type="text" placeholder="Localisation" required />
+        </div>
+        <div class="form-row">
+          <label for="em_description">Description (optionnel)</label>
+          <input id="em_description" name="description" type="text" placeholder="Brève description" />
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border-color);margin:0.75rem 0;">
+        <div class="form-row">
+          <label>
+            <input type="checkbox" id="em_create_maint" /> Créer une fiche de maintenance
+          </label>
+        </div>
+        <div id="em_maint_block" style="display:none;">
+          <div class="form-row">
+            <label for="em_m_type">Type de maintenance</label>
+            <select id="em_m_type">
+              <option value="corrective">Corrective</option>
+              <option value="preventive">Préventive</option>
+              <option value="urgente">Urgente</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="em_m_priority">Priorité</label>
+            <select id="em_m_priority">
+              <option value="normale">Normale</option>
+              <option value="basse">Basse</option>
+              <option value="haute">Haute</option>
+              <option value="critique">Critique</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="em_m_estDuration">Durée estimée (heures)</label>
+            <input id="em_m_estDuration" type="number" min="1" placeholder="Ex: 4" />
+          </div>
+          <div class="form-row">
+            <label for="em_m_description">Description du problème</label>
+            <input id="em_m_description" type="text" placeholder="Décrivez le problème" />
+          </div>
+          <div class="form-row">
+            <label for="em_m_technician">Technicien</label>
+            <select id="em_m_technician"></select>
+          </div>
+        </div>
+      </form>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="submitUpdateMaterial()">
+          <i class="fas fa-save"></i> Enregistrer
+        </button>
+        <button type="button" class="btn-outline" onclick="closeModal('editMaterialModal')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maintenance Modal -->
+  <!-- Allocation Modal -->
+  <div id="allocationModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Nouvelle allocation</h3>
+        <button class="modal-close" onclick="closeModal('allocationModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="allocationForm" class="modal-form">
+        <div class="form-row">
+          <label for="a_user">Utilisateur</label>
+          <select id="a_user" required>
+            <option value="">Sélectionner un utilisateur</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="a_materiel">Matériel</label>
+          <select id="a_materiel" required>
+            <option value="">Sélectionner un matériel</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="a_purpose">Objet</label>
+          <input id="a_purpose" type="text" placeholder="Raison de l'allocation" required />
+        </div>
+        <div class="form-row">
+          <label for="a_location">Localisation</label>
+          <input id="a_location" type="text" placeholder="Lieu d'utilisation" required />
+        </div>
+        <div class="form-row">
+          <label for="a_expectedReturnDate">Date de retour prévue</label>
+          <input id="a_expectedReturnDate" type="date" />
+        </div>
+        <div class="form-row">
+          <label for="a_notes">Notes</label>
+          <textarea id="a_notes" rows="2" placeholder="Notes supplémentaires"></textarea>
+        </div>
+      </form>
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" onclick="submitAllocation()">
+          <i class="fas fa-share-square"></i> Créer l'allocation
+        </button>
+        <button type="button" class="btn-outline" onclick="closeModal('allocationModal')">Annuler</button>
+      </div>
+    </div>
+  </div>
+  <div id="maintenanceModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Nouvelle maintenance</h3>
+        <button class="close-btn" onclick="closeModal('maintenanceModal')">&times;</button>
+      </div>
+      <form id="maintenanceForm" class="modal-form">
+        <div class="form-row">
+          <label for="m_materiel">Matériel</label>
+          <select id="m_materiel" required>
+            <option value="">Sélectionner un matériel</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="m_type">Type de maintenance</label>
+          <select id="m_type" required>
+            <option value="">Sélectionner un type</option>
+            <option value="preventive">Préventive</option>
+            <option value="corrective">Corrective</option>
+            <option value="urgente">Urgente</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="m_priority">Priorité</label>
+          <select id="m_priority" required>
+            <option value="">Sélectionner une priorité</option>
+            <option value="basse">Basse</option>
+            <option value="normale">Normale</option>
+            <option value="haute">Haute</option>
+            <option value="critique">Critique</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="m_description">Description du problème</label>
+          <textarea id="m_description" rows="3" placeholder="Décrivez le problème ou la maintenance nécessaire" required></textarea>
+        </div>
+        <div class="form-row">
+          <label for="m_estimatedDuration">Durée estimée (heures)</label>
+          <input id="m_estimatedDuration" type="number" min="1" placeholder="Ex: 4" required />
+        </div>
+        <div class="form-row">
+          <label for="m_technician">Technicien assigné</label>
+          <select id="m_technician" required>
+            <option value="">Sélectionner un technicien</option>
+          </select>
+        </div>
+        <!-- Simplified: keeping only required core fields -->
+      </form>
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" onclick="submitMaintenance()">
+          <i class="fas fa-wrench"></i> Créer la maintenance
+        </button>
+        <button type="button" class="btn-outline" onclick="closeModal('maintenanceModal')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Floating Action Button -->
+  <button class="fab" id="fab" onclick="quickAction()">
+    <i class="fas fa-plus"></i>
+  </button>
+
+          <script src="js/api-service.js"></script>
+        <script src="DashboardScripts/dashboard_admin.js"></script>
+</body>
+</html>
