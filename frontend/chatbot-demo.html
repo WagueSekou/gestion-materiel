@@ -203,8 +203,8 @@
         </div>
         
         <div class="role-selector">
-            <button class="role-btn active" data-role="media_employee">
-                <i class="fas fa-user"></i> Employé Média
+            <button class="role-btn" data-role="utilisateur">
+                <i class="fas fa-user"></i> Utilisateur
             </button>
             <button class="role-btn" data-role="technicien">
                 <i class="fas fa-tools"></i> Technicien
@@ -265,7 +265,7 @@
     </div>
 
     <script>
-        let currentRole = 'media_employee';
+        let currentRole = 'utilisateur';
         
         // Role selection
         document.querySelectorAll('.role-btn').forEach(btn => {
@@ -328,7 +328,6 @@
             
             // Equipment request assistance
             if (lowerMessage.includes('demande') || lowerMessage.includes('équipement') || lowerMessage.includes('request')) {
-                if (role === 'media_employee') {
                     return "Je peux vous aider à faire une demande d'équipement. Voulez-vous que je vous guide à travers le processus de demande ? Je peux vous aider à identifier le type d'équipement dont vous avez besoin et remplir le formulaire de demande.";
                 }
             }
@@ -364,8 +363,8 @@
         // Get role-specific help
         function getRoleSpecificHelp(role) {
             switch (role) {
-                case 'media_employee':
-                    return "En tant qu'employé média, vous pouvez faire des demandes d'équipement et signaler des pannes. Je peux vous guider dans ces processus.";
+                case 'utilisateur':
+                    return "En tant qu'utilisateur, vous pouvez faire des demandes d'équipement et signaler des pannes. Je peux vous guider dans ces processus.";
                 case 'technicien':
                     return "En tant que technicien, vous pouvez gérer les interventions, ajouter des rapports de maintenance, et traiter les demandes. Je peux vous aider avec ces tâches.";
                 case 'technical_manager':
@@ -380,7 +379,7 @@
         // Get role welcome message
         function getRoleWelcomeMessage(role) {
             const roleNames = {
-                'media_employee': 'Employé Média',
+                'utilisateur': 'Utilisateur',
                 'technicien': 'Technicien',
                 'technical_manager': 'Responsable Technique',
                 'admin': 'Administrateur'

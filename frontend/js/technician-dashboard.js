@@ -68,7 +68,8 @@ function updatePageTitle(sectionName) {
         'inventory': 'Inventaire technique',
         'schedule': 'Planning des interventions',
         'reports': 'Rapports techniques',
-        'parts': 'Gestion des pièces détachées'
+        'parts': 'Gestion des pièces détachées',
+        'irreparable': 'Équipement irréparable'
     };
     
     const pageTitle = document.querySelector('.page-title');
@@ -87,6 +88,7 @@ function loadSectionData(sectionName) {
         case 'schedule': loadSchedule(); break;
         case 'reports': loadReports(); break;
         case 'parts': loadParts(); break;
+        case 'irreparable': loadIrreparableEquipment(); break;
     }
 }
 
@@ -597,6 +599,11 @@ function setupFormHandlers() {
     if (scheduleForm) {
         scheduleForm.addEventListener('submit', handleScheduleSubmit);
     }
+    
+    const irreparableForm = document.getElementById('irreparableEquipmentForm');
+    if (irreparableForm) {
+        irreparableForm.addEventListener('submit', handleIrreparableSubmit);
+    }
 }
 
 // Handle maintenance form submission
@@ -875,3 +882,137 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Irreparable Equipment Functions
+async function loadIrreparableEquipment() {
+    const container = document.getElementById('irreparableList');
+    if (!container) return;
+    
+    container.innerHTML = '<div class="loading-spinner">Chargement des équipements irréparables...</div>';
+    
+    try {
+        // Load irreparable materials
+        const materialsResponse = await apiService.getMaterials({ status: 'irreparable' });
+        const materials = materialsResponse.data || materialsResponse.materiels || [];
+        
+        renderIrreparableEquipment(materials);
+        
+        // Load available materials for the form dropdown
+        await loadAvailableMaterialsForIrreparable();
+    } catch (error) {
+        console.error('Error loading irreparable equipment:', error);
+        showToast('Erreur lors du chargement des équipements irréparables', 'error');
+        container.innerHTML = '<p class="error-message">Erreur de chargement</p>';
+    }
+}
+
+function renderIrreparableEquipment(materials) {
+    const container = document.getElementById('irreparableList');
+    if (!container) return;
+    
+    if (materials.length === 0) {
+        container.innerHTML = '<p class="no-data">Aucun équipement marqué comme irréparable</p>';
+        return;
+    }
+    
+    container.innerHTML = `
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Numéro de série</th>
+                    <th>Raison</th>
+                    <th>Date signalé</th>
+                    <th>Signalé par</th>
+                    <th>Méthode de disposition</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${materials.map(item => `
+                    <tr>
+                        <td>${item.name || ''}</td>
+                        <td>${item.type || ''}</td>
+                        <td>${item.serialNumber || 'N/A'}</td>
+                        <td>${item.irreparableReason || ''}</td>
+                        <td>${item.irreparableDate ? new Date(item.irreparableDate).toLocaleDateString() : ''}</td>
+                        <td>${item.reportedBy?.name || ''}</td>
+                        <td>${item.disposalMethod || 'Non spécifié'}</td>
+                        <td class="actions">
+                            <button class="btn-info" onclick="viewIrreparableDetails('${item._id}')">
+                                <i class="fas fa-eye"></i> Détails
+                            </button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+async function loadAvailableMaterialsForIrreparable() {
+    try {
+        // Load materials that are not already irreparable
+        const materialsResponse = await apiService.getMaterials({ 
+            status: { $ne: 'irreparable' } 
+        });
+        const materials = materialsResponse.data || materialsResponse.materiels || [];
+        
+        const select = document.getElementById('materielIrreparable');
+        if (select) {
+            select.innerHTML = '<option value="">Sélectionner un équipement</option>' +
+                materials.map(material => 
+                    `<option value="${material._id}">${material.name} - ${material.type} (${material.serialNumber || 'N/A'})</option>`
+                ).join('');
+        }
+    } catch (error) {
+        console.error('Error loading materials for irreparable form:', error);
+    }
+}
+
+function showIrreparableForm() {
+    const form = document.getElementById('irreparableForm');
+    if (form) {
+        form.style.display = 'block';
+        loadAvailableMaterialsForIrreparable();
+    }
+}
+
+function hideIrreparableForm() {
+    const form = document.getElementById('irreparableForm');
+    if (form) {
+        form.style.display = 'none';
+        form.reset();
+    }
+}
+
+async function handleIrreparableSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const materialId = formData.get('materielIrreparable');
+    const reason = formData.get('irreparableReason');
+    const disposalMethod = formData.get('disposalMethod');
+    
+    if (!materialId || !reason) {
+        showToast('Veuillez sélectionner un équipement et fournir une raison', 'error');
+        return;
+    }
+    
+    try {
+        await apiService.markMaterialIrreparable(materialId, reason, disposalMethod);
+        showToast('Équipement marqué comme irréparable avec succès', 'success');
+        e.target.reset();
+        hideIrreparableForm();
+        loadIrreparableEquipment();
+    } catch (error) {
+        console.error('Error marking material as irreparable:', error);
+        showToast(error.message || 'Erreur lors du marquage de l\'équipement', 'error');
+    }
+}
+
+function viewIrreparableDetails(materialId) {
+    showToast(`Affichage des détails pour l'équipement ${materialId}`, 'info');
+    // TODO: Implement detailed view modal
+}

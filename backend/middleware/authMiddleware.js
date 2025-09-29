@@ -67,7 +67,6 @@ const authorize = (...roles) => {
 const isAdmin = authorize('admin');
 const isTechnician = authorize('technicien');
 const isUser = authorize('utilisateur');
-const isMediaEmployee = authorize('media_employee');
 const isTechnicalManager = authorize('technical_manager');
 const isAdminOrTechnician = authorize('admin', 'technicien');
 const isAdminOrTechnicalManager = authorize('admin', 'technical_manager');
@@ -79,7 +78,6 @@ module.exports = {
   isAdmin,
   isTechnician,
   isUser,
-  isMediaEmployee,
   isTechnicalManager,
   isAdminOrTechnician,
   isAdminOrTechnicalManager,

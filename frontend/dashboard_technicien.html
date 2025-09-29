@@ -56,6 +56,10 @@
           <i class="fas fa-cogs"></i>
           <span>Pièces détachées</span>
         </a>
+        <a href="#" class="menu-item" data-section="irreparable">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Équipement irréparable</span>
+        </a>
       </div>
       
       <div class="menu-section">
@@ -620,6 +624,65 @@
         <div class="data-section">
           <h3>Détail du stock</h3>
           <div id="partsDetailList" class="data-table-container">
+            <div class="loading-spinner">Chargement...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Irreparable Equipment Section -->
+      <section id="irreparable-section" class="content-section">
+        <div class="section-header">
+          <h2>Équipement irréparable</h2>
+          <button class="btn-primary" onclick="showIrreparableForm()">
+            <i class="fas fa-plus"></i>
+            Signaler un équipement irréparable
+          </button>
+        </div>
+        
+        <!-- Irreparable Equipment Form -->
+        <div class="form-card" id="irreparableForm" style="display: none;">
+          <h3>Signaler un équipement irréparable</h3>
+          <form id="irreparableEquipmentForm" class="modern-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="materielIrreparable">Équipement concerné</label>
+                <select id="materielIrreparable" required>
+                  <option value="">Sélectionner un équipement</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="disposalMethod">Méthode de disposition</label>
+                <select id="disposalMethod">
+                  <option value="">Sélectionner une méthode</option>
+                  <option value="Recyclage">Recyclage</option>
+                  <option value="Déchet">Déchet</option>
+                  <option value="Don">Don</option>
+                  <option value="Vente">Vente</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="irreparableReason">Raison de l'irréparabilité</label>
+              <textarea id="irreparableReason" placeholder="Décrivez en détail pourquoi cet équipement est irréparable..." rows="4" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                Marquer comme irréparable
+              </button>
+              <button type="button" class="btn-secondary" onclick="hideIrreparableForm()">
+                <i class="fas fa-times"></i>
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Irreparable Equipment List -->
+        <div class="data-section">
+          <h3>Équipements marqués comme irréparables</h3>
+          <div id="irreparableList" class="data-table-container">
             <div class="loading-spinner">Chargement...</div>
           </div>
         </div>

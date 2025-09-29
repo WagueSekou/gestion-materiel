@@ -23,7 +23,7 @@ const materielSchema = new mongoose.Schema({
   status: { 
     type: String, 
     required: true,
-    enum: ['disponible', 'affecté', 'maintenance', 'hors_service'],
+    enum: ['disponible', 'affecté', 'maintenance', 'hors_service', 'irreparable'],
     default: 'disponible'
   },
   location: { 
@@ -78,6 +78,25 @@ const materielSchema = new mongoose.Schema({
     type: String,
     enum: ['Excellent', 'Bon', 'Moyen', 'Mauvais'],
     default: 'Bon'
+  },
+  // Irreparable equipment tracking
+  irreparableDate: { 
+    type: Date
+  },
+  irreparableReason: { 
+    type: String,
+    trim: true
+  },
+  reportedBy: { 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  disposalDate: { 
+    type: Date
+  },
+  disposalMethod: { 
+    type: String,
+    enum: ['Recyclage', 'Déchet', 'Don', 'Vente', 'Autre']
   }
 }, {
   timestamps: true

@@ -319,10 +319,6 @@ function handleImportRequest(message, userRole, context) {
 // Handle equipment requests
 function handleEquipmentRequest(message, userRole, context) {
   const responses = {
-    media_employee: {
-      content: "Je comprends que vous avez besoin d'équipement. En tant qu'employé média, je peux vous aider à :\n\n🔧 **Faire une demande d'équipement**\n- Cliquez sur 'Mes Demandes' dans le menu\n- Puis sur 'Nouvelle Demande'\n- Remplissez le formulaire avec le type d'équipement, la description et la date nécessaire\n\n📋 **Vérifier vos demandes existantes**\n- Consultez l'onglet 'Mes Demandes' pour voir le statut\n\n💡 **Types d'équipement disponibles :**\n- Ordinateurs, Caméras, Microphones, Écrans, Claviers, Souris, Câbles\n\nQue souhaitez-vous faire exactement ?",
-      context: { currentTask: 'equipment_request' }
-    },
     default: {
       content: "Je peux vous aider avec les demandes d'équipement. Voici ce que vous pouvez faire :\n\n1. **Faire une nouvelle demande** - Spécifiez le type d'équipement dont vous avez besoin\n2. **Vérifier le statut** de vos demandes existantes\n3. **Consulter la liste** des équipements disponibles\n\nDécrivez-moi plus précisément ce dont vous avez besoin !"
     }
@@ -435,10 +431,6 @@ function handleCreationRequest(message, userRole, context) {
       content: "En tant qu'administrateur, vous pouvez créer :\n\n👥 **Utilisateurs :**\n- Allez dans 'Utilisateurs' → 'Ajouter un utilisateur'\n- Remplissez les informations (nom, email, rôle)\n- Définissez un mot de passe temporaire\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → 'Ajouter un matériel'\n- Spécifiez le type, nom, numéro de série\n- Définissez la localisation et l'état\n\n📋 **Rapports :**\n- Générez des rapports personnalisés\n- Exportez les données en PDF/Excel\n\nQue souhaitez-vous créer ?",
       context: { currentTask: 'creation' }
     },
-    media_employee: {
-      content: "Vous pouvez créer :\n\n📝 **Demandes d'équipement :**\n- Allez dans 'Mes Demandes' → 'Nouvelle Demande'\n- Spécifiez le type d'équipement nécessaire\n- Décrivez l'usage prévu et la date nécessaire\n\n🚨 **Rapports de panne :**\n- Allez dans 'Rapports de Panne' → 'Nouveau Rapport'\n- Sélectionnez l'équipement concerné\n- Décrivez le problème en détail\n\nQue souhaitez-vous créer ?",
-      context: { currentTask: 'creation' }
-    },
     default: {
       content: "Vous pouvez créer :\n\n1. **Demandes d'équipement** - Si vous avez besoin de matériel\n2. **Rapports de panne** - Pour signaler des problèmes\n3. **Rapports de maintenance** - Si vous êtes technicien\n\nQue souhaitez-vous créer ?"
     }
@@ -491,7 +483,6 @@ function handleGreeting(message, userRole, context) {
     admin: "Bonjour ! Je suis votre assistant IA pour l'administration. Je peux vous aider avec la gestion des utilisateurs, des équipements, les statistiques et bien plus encore. Comment puis-je vous assister aujourd'hui ?",
     technicien: "Salut ! Je suis votre assistant pour la maintenance. Je peux vous aider avec vos interventions, rapports de maintenance, planning et gestion des équipements. Que puis-je faire pour vous ?",
     technical_manager: "Bonjour ! Je suis votre assistant pour la gestion technique. Je peux vous aider avec la planification des services, les statistiques, la gestion des équipements et le suivi des allocations. Comment puis-je vous aider ?",
-    media_employee: "Salut ! Je suis votre assistant pour les demandes d'équipement et rapports de panne. Je peux vous guider dans vos démarches et vous aider à utiliser le système efficacement. Que puis-je faire pour vous ?",
     default: "Bonjour ! Je suis votre assistant IA. Je peux vous aider avec vos demandes d'équipement, rapports de panne, maintenance et bien plus encore. Comment puis-je vous assister ?"
   };
 
@@ -530,12 +521,6 @@ function generateIntelligentResponse(message, userRole, context) {
       "Gérer les allocations d'équipement",
       "Suivre les performances des techniciens"
     ],
-    media_employee: [
-      "Faire une demande d'équipement",
-      "Signaler une panne ou un problème",
-      "Consulter la liste des équipements",
-      "Vérifier le statut de mes demandes"
-    ],
     default: [
       "Faire une demande d'équipement",
       "Signaler un problème technique",
@@ -555,8 +540,6 @@ function generateIntelligentResponse(message, userRole, context) {
 // Get role-specific help
 function getRoleSpecificHelp(userRole) {
   switch (userRole) {
-    case 'media_employee':
-      return "En tant qu'employé média, vous pouvez faire des demandes d'équipement et signaler des pannes.";
     case 'technicien':
       return "En tant que technicien, vous pouvez gérer les interventions, ajouter des rapports de maintenance, et traiter les demandes.";
     case 'technical_manager':

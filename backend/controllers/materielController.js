@@ -453,5 +453,76 @@ exports.searchMateriels = async (req, res) => {
   }
 };
 
+// @desc    Mark equipment as irreparable
+// @route   POST /api/materiel/:id/mark-irreparable
+// @access  Private (Technician, Admin)
+exports.markIrreparable = async (req, res) => {
+  try {
+    const { reason, disposalMethod } = req.body;
+
+    const materiel = await Materiel.findById(req.params.id);
+    if (!materiel) {
+      return res.status(404).json({ message: 'Material not found' });
+    }
+
+    // Check if material is already marked as irreparable
+    if (materiel.status === 'irreparable') {
+      return res.status(400).json({ 
+        message: 'Material is already marked as irreparable' 
+      });
+    }
+
+    // Update material status and irreparable information
+    materiel.status = 'irreparable';
+    materiel.irreparableDate = new Date();
+    materiel.irreparableReason = reason;
+    materiel.reportedBy = req.user.id;
+    
+    if (disposalMethod) {
+      materiel.disposalMethod = disposalMethod;
+    }
+
+    await materiel.save();
+
+    // If material was allocated, update the allocation status
+    if (materiel.assignedTo) {
+      await Allocation.findOneAndUpdate(
+        { materiel: req.params.id, status: 'active' },
+        { 
+          status: 'returned',
+          returnDate: new Date(),
+          returnCondition: 'irreparable',
+          returnNotes: `Equipment marked as irreparable: ${reason}`,
+          returnedBy: req.user.id
+        }
+      );
+    }
+
+    // If material was under maintenance, complete the maintenance
+    const activeMaintenance = await Maintenance.findOne({
+      materiel: req.params.id,
+      status: { $in: ['en_attente', 'en_cours'] }
+    });
+
+    if (activeMaintenance) {
+      activeMaintenance.status = 'terminee';
+      activeMaintenance.endDate = new Date();
+      activeMaintenance.solution = `Equipment marked as irreparable: ${reason}`;
+      activeMaintenance.actualDuration = 0;
+      await activeMaintenance.save();
+    }
+
+    await materiel.populate('reportedBy', 'name email');
+
+    res.json({
+      message: 'Equipment marked as irreparable successfully',
+      materiel
+    });
+  } catch (error) {
+    console.error('Mark irreparable error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 

@@ -409,4 +409,4 @@ Content-Type: application/json
 - `basse`, `normale`, `haute`, `critique`
 
 ### Valid User Roles
-- `admin`, `technicien`, `utilisateur`, `media_employee`, `technical_manager`
+- `admin`, `technicien`, `utilisateur`, `technical_manager`

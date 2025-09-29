@@ -10,7 +10,8 @@ const {
   assignMateriel,
   returnMateriel,
   getMaterielStats,
-  searchMateriels
+  searchMateriels,
+  markIrreparable
 } = require('../controllers/materielController');
 
 // Public routes (if any)
@@ -44,5 +45,8 @@ router.route('/:id/assign')
 
 router.route('/:id/return')
   .post(isAdminOrTechnician, returnMateriel);
+
+router.route('/:id/mark-irreparable')
+  .post(isAdminOrTechnician, markIrreparable);
 
 module.exports = router;

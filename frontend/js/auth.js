@@ -26,8 +26,6 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         window.location.href = "dashboard_admin.html";
       } else if (data.role === "technicien") {
         window.location.href = "dashboard_technicien.html";
-      } else if (data.role === "media_employee") {
-        window.location.href = "dashboard_media_employee.html";
       } else if (data.role === "technical_manager") {
         window.location.href = "dashboard_technical_manager.html";
       } else {

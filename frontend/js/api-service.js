@@ -198,6 +198,13 @@ class ApiService {
     });
   }
 
+  async markMaterialIrreparable(materialId, reason, disposalMethod = null) {
+    return await this.request(`/materiel/${materialId}/mark-irreparable`, {
+      method: 'POST',
+      body: JSON.stringify({ reason, disposalMethod })
+    });
+  }
+
   async searchMaterials(query, filters = {}) {
     const params = { q: query, ...filters };
     const queryString = new URLSearchParams(params).toString();

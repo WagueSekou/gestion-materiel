@@ -1442,82 +1442,1119 @@ body {
   }
 }
 
+/* Technical Manager Dashboard Specific Styles - FIXED */
+.technical-manager-dashboard .dashboard-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+  gap: 2rem !important;
+  margin-top: 2rem !important;
+}
+
+.technical-manager-dashboard .stats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 1.5rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.technical-manager-dashboard .stat-card {
+  background: var(--surface-color) !important;
+  padding: 1.25rem !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-md) !important;
+  border: 1px solid var(--border-color) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  min-height: 80px !important;
+}
+
+.technical-manager-dashboard .stat-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.technical-manager-dashboard .stat-icon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.25rem !important;
+  color: white !important;
+  flex-shrink: 0 !important;
+}
+
+.technical-manager-dashboard .stat-content {
+  flex: 1 !important;
+}
+
+.technical-manager-dashboard .stat-content h3 {
+  margin: 0 0 0.25rem 0 !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+}
+
+.technical-manager-dashboard .stat-content p {
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+.technical-manager-dashboard .stat-card:nth-child(1) .stat-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.technical-manager-dashboard .stat-card:nth-child(2) .stat-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+}
+
+.technical-manager-dashboard .stat-card:nth-child(3) .stat-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+}
+
+.technical-manager-dashboard .stat-card:nth-child(4) .stat-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+}
+
+/* Enhanced Dashboard Card Styles - FIXED */
+.technical-manager-dashboard .dashboard-card {
+  background: var(--surface-color) !important;
+  padding: 1.5rem !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all 0.2s ease !important;
+  min-height: 200px !important;
+}
+
+.technical-manager-dashboard .dashboard-card:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+.technical-manager-dashboard .dashboard-card h3 {
+  margin: 0 0 1rem 0 !important;
+  color: var(--text-primary) !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid var(--primary-color) !important;
+  padding-bottom: 0.5rem !important;
+}
+
+/* Enhanced Request and Fault Lists - FIXED */
+.technical-manager-dashboard .request-list, 
+.technical-manager-dashboard .fault-list {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--background-color) !important;
+}
+
+.technical-manager-dashboard .request-item, 
+.technical-manager-dashboard .fault-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.75rem !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.technical-manager-dashboard .request-item:last-child, 
+.technical-manager-dashboard .fault-item:last-child {
+  border-bottom: none !important;
+}
+
+.technical-manager-dashboard .request-item:hover, 
+.technical-manager-dashboard .fault-item:hover {
+  background-color: var(--surface-color) !important;
+}
+
+.technical-manager-dashboard .request-info, 
+.technical-manager-dashboard .fault-info {
+  flex: 1 !important;
+}
+
+.technical-manager-dashboard .request-info h4, 
+.technical-manager-dashboard .fault-info h4 {
+  margin: 0 0 0.25rem 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+.technical-manager-dashboard .request-info p, 
+.technical-manager-dashboard .fault-info p {
+  margin: 0 !important;
+  font-size: 0.75rem !important;
+  color: var(--text-secondary) !important;
+}
+
+.technical-manager-dashboard .request-status, 
+.technical-manager-dashboard .fault-status {
+  margin-left: 1rem !important;
+}
+
+/* Section Header Enhancements - FIXED */
+.technical-manager-dashboard .section-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 2px solid var(--border-color) !important;
+}
+
+.technical-manager-dashboard .section-header h2 {
+  margin: 0 !important;
+  color: var(--text-primary) !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+/* Chart Container Enhancements - FIXED */
+.technical-manager-dashboard .chart-container {
+  background: var(--surface-color) !important;
+  padding: 1.5rem !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.technical-manager-dashboard .chart-container canvas {
+  max-height: 300px !important;
+}
+
+/* Main Content Area Enhancements - FIXED */
+.technical-manager-dashboard .main-content {
+  padding: 2rem !important;
+  background: var(--background-color) !important;
+  min-height: 100vh !important;
+}
+
+.technical-manager-dashboard .content-section {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.technical-manager-dashboard .content-section.active {
+  display: block !important;
+}
+
+/* Table Enhancements for Technical Manager - FIXED */
+.technical-manager-dashboard .data-table {
+  font-size: 0.875rem !important;
+  width: 100% !important;
+  border-collapse: collapse !important;
+  background: var(--surface-color) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.technical-manager-dashboard .data-table th {
+  background: var(--primary-color) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 1rem 0.75rem !important;
+  text-align: left !important;
+}
+
+.technical-manager-dashboard .data-table td {
+  padding: 0.75rem !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.technical-manager-dashboard .data-table tr:last-child td {
+  border-bottom: none !important;
+}
+
+.technical-manager-dashboard .data-table tr:hover {
+  background-color: var(--background-color) !important;
+}
+
+/* Modal Enhancements - FIXED */
+.technical-manager-dashboard .modal {
+  display: none !important;
+  position: fixed !important;
+  z-index: 1000 !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.technical-manager-dashboard .modal-content {
+  background: var(--surface-color) !important;
+  margin: 5% auto !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-xl) !important;
+  max-width: 600px !important;
+  width: 90% !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  animation: modalSlideIn 0.3s ease-out !important;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.technical-manager-dashboard .modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.5rem !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  background: var(--background-color) !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.technical-manager-dashboard .modal-header h3 {
+  margin: 0 !important;
+  color: var(--text-primary) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+}
+
+.technical-manager-dashboard .close {
+  background: none !important;
+  border: none !important;
+  font-size: 1.5rem !important;
+  color: var(--text-secondary) !important;
+  cursor: pointer !important;
+  padding: 0.5rem !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.technical-manager-dashboard .close:hover {
+  background: var(--background-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.technical-manager-dashboard .modal-form {
+  padding: 1.5rem !important;
+}
+
+.technical-manager-dashboard .modal-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 1rem !important;
+  padding: 1.5rem !important;
+  border-top: 1px solid var(--border-color) !important;
+  background: var(--background-color) !important;
+  border-radius: 0 0 12px 12px !important;
+}
+
+.technical-manager-dashboard .form-group {
+  margin-bottom: 1.5rem !important;
+}
+
+.technical-manager-dashboard .form-group label {
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 500 !important;
+  color: var(--text-primary) !important;
+}
+
+.technical-manager-dashboard .form-group input,
+.technical-manager-dashboard .form-group select,
+.technical-manager-dashboard .form-group textarea {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.technical-manager-dashboard .form-group input:focus,
+.technical-manager-dashboard .form-group select:focus,
+.technical-manager-dashboard .form-group textarea:focus {
+  outline: none !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* No Data and Loading States - FIXED */
+.technical-manager-dashboard .no-data {
+  text-align: center !important;
+  color: var(--text-secondary) !important;
+  font-style: italic !important;
+  padding: 2rem !important;
+  margin: 0 !important;
+  background: var(--background-color) !important;
+  border-radius: 8px !important;
+  border: 1px dashed var(--border-color) !important;
+}
+
+.technical-manager-dashboard .loading-spinner {
+  text-align: center !important;
+  color: var(--text-secondary) !important;
+  padding: 2rem !important;
+  margin: 0 !important;
+  background: var(--background-color) !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.technical-manager-dashboard .loading-spinner::before {
+  content: "⏳" !important;
+  display: block !important;
+  font-size: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Error Messages - FIXED */
+.technical-manager-dashboard .error-message {
+  text-align: center !important;
+  color: var(--error-color) !important;
+  padding: 2rem !important;
+  margin: 0 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Export Actions - FIXED */
+.technical-manager-dashboard .export-actions {
+  display: flex !important;
+  gap: 1rem !important;
+  align-items: center !important;
+}
+
+.technical-manager-dashboard .export-actions .btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.technical-manager-dashboard .export-actions .btn-success {
+  background: var(--success-color) !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .export-actions .btn-success:hover {
+  background: #059669 !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .export-actions .btn-info {
+  background: #0ea5e9 !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .export-actions .btn-info:hover {
+  background: #0284c7 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Table Container - FIXED */
+.technical-manager-dashboard .table-container {
+  background: var(--surface-color) !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden !important;
+  margin-top: 1rem !important;
+}
+
+/* Chatbot Enhancements - FIXED */
+.technical-manager-dashboard .chatbot-container {
+  background: var(--surface-color) !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden !important;
+  height: 500px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.technical-manager-dashboard .chatbot-messages {
+  flex: 1 !important;
+  padding: 1rem !important;
+  overflow-y: auto !important;
+  background: var(--background-color) !important;
+}
+
+.technical-manager-dashboard .chatbot-input {
+  padding: 1rem !important;
+  background: var(--surface-color) !important;
+  border-top: 1px solid var(--border-color) !important;
+  display: flex !important;
+  gap: 0.5rem !important;
+}
+
+.technical-manager-dashboard .chat-input {
+  flex: 1 !important;
+  padding: 0.75rem !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+}
+
+.technical-manager-dashboard .chat-input:focus {
+  outline: none !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+.technical-manager-dashboard .message {
+  margin-bottom: 1rem !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+}
+
+.technical-manager-dashboard .user-message {
+  justify-content: flex-end !important;
+}
+
+.technical-manager-dashboard .bot-message {
+  justify-content: flex-start !important;
+}
+
+.technical-manager-dashboard .message-content {
+  max-width: 70% !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 12px !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+.technical-manager-dashboard .user-message .message-content {
+  background: var(--primary-color) !important;
+  color: white !important;
+  border-bottom-right-radius: 4px !important;
+}
+
+.technical-manager-dashboard .bot-message .message-content {
+  background: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+/* Status and Priority Badges - FIXED */
+.technical-manager-dashboard .status-badge,
+.technical-manager-dashboard .priority-badge,
+.technical-manager-dashboard .severity-badge {
+  display: inline-block !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 20px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.technical-manager-dashboard .status-pending {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.technical-manager-dashboard .status-approved {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+.technical-manager-dashboard .status-rejected {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+.technical-manager-dashboard .status-active {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.technical-manager-dashboard .status-disponible {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+.technical-manager-dashboard .status-affecté {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.technical-manager-dashboard .status-maintenance {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.technical-manager-dashboard .status-hors_service {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+.technical-manager-dashboard .priority-basse {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+}
+
+.technical-manager-dashboard .priority-normale {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.technical-manager-dashboard .priority-haute {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.technical-manager-dashboard .priority-critique {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+.technical-manager-dashboard .severity-low {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+.technical-manager-dashboard .severity-medium {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.technical-manager-dashboard .severity-high {
+  background: #fed7aa !important;
+  color: #c2410c !important;
+}
+
+.technical-manager-dashboard .severity-critical {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+/* Button Enhancements - FIXED */
+.technical-manager-dashboard .btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.technical-manager-dashboard .btn-primary {
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .btn-primary:hover {
+  background: var(--primary-dark) !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .btn-secondary {
+  background: var(--secondary-color) !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .btn-secondary:hover {
+  background: #475569 !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .btn-success {
+  background: var(--success-color) !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .btn-success:hover {
+  background: #059669 !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .btn-danger {
+  background: var(--error-color) !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .btn-danger:hover {
+  background: #dc2626 !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .btn-warning {
+  background: var(--warning-color) !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .btn-warning:hover {
+  background: #d97706 !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .btn-info {
+  background: #0ea5e9 !important;
+  color: white !important;
+}
+
+.technical-manager-dashboard .btn-info:hover {
+  background: #0284c7 !important;
+  transform: translateY(-1px) !important;
+}
+
+.technical-manager-dashboard .btn-sm {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.75rem !important;
+}
+
+.technical-manager-dashboard .btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.technical-manager-dashboard .btn:disabled:hover {
+  transform: none !important;
+}
+
+/* Toast Notifications - FIXED */
+.technical-manager-dashboard .toast {
+  position: fixed !important;
+  top: 2rem !important;
+  right: 2rem !important;
+  background: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  padding: 1rem 1.5rem !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--border-color) !important;
+  z-index: 1001 !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+  transform: translateX(100%) !important;
+  transition: transform 0.3s ease !important;
+}
+
+.technical-manager-dashboard .toast.show {
+  transform: translateX(0) !important;
+}
+
+.technical-manager-dashboard .toast-success {
+  border-left: 4px solid var(--success-color) !important;
+}
+
+.technical-manager-dashboard .toast-error {
+  border-left: 4px solid var(--error-color) !important;
+}
+
+.technical-manager-dashboard .toast-warning {
+  border-left: 4px solid var(--warning-color) !important;
+}
+
+.technical-manager-dashboard .toast-info {
+  border-left: 4px solid #0ea5e9 !important;
+}
+
+/* Technical Manager Dashboard Responsive Design - FIXED */
+@media (max-width: 768px) {
+  .technical-manager-dashboard .main-content {
+    padding: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .stat-card {
+    padding: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .stat-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .stat-content h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  .technical-manager-dashboard .dashboard-card {
+    padding: 1rem !important;
+    min-height: 150px !important;
+  }
+  
+  .technical-manager-dashboard .data-table {
+    font-size: 0.75rem !important;
+  }
+  
+  .technical-manager-dashboard .data-table th,
+  .technical-manager-dashboard .data-table td {
+    padding: 0.5rem 0.25rem !important;
+  }
+  
+  .technical-manager-dashboard .modal-content {
+    margin: 2% auto !important;
+    max-width: 95% !important;
+  }
+  
+  .technical-manager-dashboard .section-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .export-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  
+  .technical-manager-dashboard .export-actions .btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .technical-manager-dashboard .chatbot-container {
+    height: 400px !important;
+  }
+  
+  .technical-manager-dashboard .toast {
+    right: 1rem !important;
+    left: 1rem !important;
+    min-width: auto !important;
+    max-width: none !important;
+  }
+}
+
 @media (max-width: 480px) {
   .sidebar {
     width: 100%;
   }
   
-  .toast {
-    min-width: 250px;
-    right: 0.5rem;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #0f172a;
-    --surface-color: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border-color: #334155;
+  .technical-manager-dashboard .main-content {
+    padding: 0.5rem !important;
   }
   
-  .sidebar {
-    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  .technical-manager-dashboard .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .technical-manager-dashboard .stat-card {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 0.5rem !important;
+    padding: 0.75rem !important;
+  }
+  
+  .technical-manager-dashboard .stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .technical-manager-dashboard .stat-content h3 {
+    font-size: 1.125rem !important;
+  }
+  
+  .technical-manager-dashboard .stat-content p {
+    font-size: 0.75rem !important;
+  }
+  
+  .technical-manager-dashboard .request-item,
+  .technical-manager-dashboard .fault-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+  }
+  
+  .technical-manager-dashboard .request-status,
+  .technical-manager-dashboard .fault-status {
+    margin-left: 0 !important;
+  }
+  
+  .technical-manager-dashboard .data-table {
+    font-size: 0.625rem !important;
+  }
+  
+  .technical-manager-dashboard .data-table th,
+  .technical-manager-dashboard .data-table td {
+    padding: 0.25rem !important;
+  }
+  
+  .technical-manager-dashboard .btn {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .technical-manager-dashboard .btn-sm {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.625rem !important;
+  }
+  
+  .technical-manager-dashboard .modal-content {
+    margin: 1% auto !important;
+    max-width: 98% !important;
+  }
+  
+  .technical-manager-dashboard .modal-header,
+  .technical-manager-dashboard .modal-form,
+  .technical-manager-dashboard .modal-actions {
+    padding: 1rem !important;
+  }
+  
+  .technical-manager-dashboard .chatbot-container {
+    height: 300px !important;
+  }
+  
+  .technical-manager-dashboard .chatbot-input {
+    padding: 0.75rem !important;
+  }
+  
+  .technical-manager-dashboard .chat-input {
+    padding: 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .technical-manager-dashboard .message-content {
+    max-width: 85% !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+  
+
+/* Sidebar Enhancements for Technical Manager - FIXED */
+.technical-manager-dashboard .sidebar {
+  background: var(--surface-color) !important;
+  border-right: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.technical-manager-dashboard .sidebar-header {
+  padding: 1.5rem !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  background: var(--background-color) !important;
+}
+
+.technical-manager-dashboard .sidebar-header h2 {
+  margin: 0 !important;
+  color: var(--text-primary) !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+}
+
+.technical-manager-dashboard .sidebar-menu {
+  padding: 1rem 0 !important;
+}
+
+.technical-manager-dashboard .sidebar-menu li {
+  margin: 0 !important;
+}
+
+.technical-manager-dashboard .sidebar-menu a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1.5rem !important;
+  color: var(--text-secondary) !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  border-left: 3px solid transparent !important;
+}
+
+.technical-manager-dashboard .sidebar-menu a:hover {
+  background: var(--background-color) !important;
+  color: var(--text-primary) !important;
+  border-left-color: var(--primary-color) !important;
+}
+
+.technical-manager-dashboard .sidebar-menu a.active {
+  background: var(--background-color) !important;
+  color: var(--primary-color) !important;
+  border-left-color: var(--primary-color) !important;
+  font-weight: 500 !important;
+}
+
+.technical-manager-dashboard .sidebar-menu a i {
+  width: 20px !important;
+  text-align: center !important;
+  font-size: 1rem !important;
+}
+
+/* Header Enhancements for Technical Manager - FIXED */
+.technical-manager-dashboard .header {
+  background: var(--surface-color) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.technical-manager-dashboard .header h1 {
+  margin: 0 !important;
+  color: var(--text-primary) !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+.technical-manager-dashboard .user-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.5rem 1rem !important;
+  background: var(--background-color) !important;
+  border-radius: 12px !important;
+  color: var(--text-primary) !important;
+  font-weight: 500 !important;
+}
+
+/* Dark mode support - FIXED */
+@media (prefers-color-scheme: dark) {
+  .technical-manager-dashboard {
+    --background-color: #0f172a !important;
+    --surface-color: #1e293b !important;
+    --text-primary: #f1f5f9 !important;
+    --text-secondary: #94a3b8 !important;
+    --border-color: #334155 !important;
   }
 }
 
-/* Logo Styling */
-.logo-image {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Logo Styling for Technical Manager - FIXED */
+.technical-manager-dashboard .logo {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  object-fit: cover !important;
 }
 
-.logo-image:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+/* Additional Enhancements - FIXED */
+.technical-manager-dashboard .dashboard-container {
+  display: flex !important;
+  min-height: 100vh !important;
+  background: var(--background-color) !important;
 }
 
-/* No Data Message */
-
-/* Modals */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+.technical-manager-dashboard .content-section {
+  display: none !important;
+  width: 100% !important;
 }
 
-.modal-content {
-  background: var(--surface-color);
-  width: 100%;
-  max-width: 520px;
-  max-height: 90vh;
-  border-radius: 14px;
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.technical-manager-dashboard .content-section.active {
+  display: block !important;
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
+/* Loading States - FIXED */
+.technical-manager-dashboard .loading {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 2rem !important;
+  color: var(--text-secondary) !important;
 }
 
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+.technical-manager-dashboard .loading::before {
+  content: "⏳" !important;
+  display: block !important;
+  font-size: 2rem !important;
+  margin-right: 1rem !important;
+  animation: spin 1s linear infinite !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Scrollbar Styling - FIXED */
+.technical-manager-dashboard ::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.technical-manager-dashboard ::-webkit-scrollbar-track {
+  background: var(--background-color) !important;
+}
+
+.technical-manager-dashboard ::-webkit-scrollbar-thumb {
+  background: var(--border-color) !important;
+  border-radius: 4px !important;
+}
+
+.technical-manager-dashboard ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary) !important;
+}
+
+/* Modals for Technical Manager - FIXED */
+.technical-manager-dashboard .modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1000 !important;
+  display: none !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.technical-manager-dashboard .modal.show {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.technical-manager-dashboard .modal-content {
+  background: var(--surface-color) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-xl) !important;
+  max-width: 600px !important;
+  width: 90% !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  animation: modalSlideIn 0.3s ease-out !important;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal-close {

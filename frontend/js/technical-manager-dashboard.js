@@ -90,15 +90,25 @@ async function loadDashboardData() {
     try {
         // Load equipment data
         const equipmentResponse = await apiService.getMaterials();
-        const equipment = equipmentResponse.data || [];
+        const equipment = equipmentResponse.data || equipmentResponse.materiels || equipmentResponse || [];
 
         // Load equipment requests
-        const requestsResponse = await apiService.getAllEquipmentRequests();
-        const requests = requestsResponse.data || [];
+        let requests = [];
+        try {
+            const requestsResponse = await apiService.getAllEquipmentRequests();
+            requests = requestsResponse.data || requestsResponse.requests || requestsResponse || [];
+        } catch (error) {
+            console.warn('Could not load equipment requests:', error);
+        }
 
         // Load fault reports
-        const faultReportsResponse = await apiService.getAllFaultReports();
-        const faultReports = faultReportsResponse.data || [];
+        let faultReports = [];
+        try {
+            const faultReportsResponse = await apiService.getAllFaultReports();
+            faultReports = faultReportsResponse.data || faultReportsResponse.reports || faultReportsResponse || [];
+        } catch (error) {
+            console.warn('Could not load fault reports:', error);
+        }
 
         // Update statistics
         const totalEquipmentEl = document.getElementById('totalEquipment');
@@ -182,7 +192,7 @@ function loadRecentFaults(faults) {
 async function loadEquipmentManagement() {
     try {
         const response = await apiService.getMaterials();
-        const equipment = response.data || [];
+        const equipment = response.data || response.materiels || response || [];
         renderEquipmentManagement(equipment);
     } catch (error) {
         console.error('Error loading equipment:', error);
@@ -256,7 +266,7 @@ async function submitCreateEquipment() {
 async function loadStatistics() {
     try {
         const response = await apiService.getMaterials();
-        const equipment = response.data || [];
+        const equipment = response.data || response.materiels || response || [];
         
         // Prepare data for charts
         const statusData = getEquipmentStatusData(equipment);
@@ -457,7 +467,7 @@ async function exportToPDF() {
 async function loadAllocationTracking() {
     try {
         const response = await apiService.getMaterials();
-        const equipment = response.data || [];
+        const equipment = response.data || response.materiels || response || [];
         const allocatedEquipment = equipment.filter(e => e.assignedTo);
         renderAllocationTracking(allocatedEquipment);
     } catch (error) {
@@ -492,7 +502,7 @@ function renderAllocationTracking(allocations) {
 async function loadServiceScheduling() {
     try {
         const response = await apiService.getMaintenances();
-        const maintenances = response.data || [];
+        const maintenances = response.data || response.maintenances || response || [];
         renderServiceScheduling(maintenances);
     } catch (error) {
         console.error('Error loading service scheduling:', error);
@@ -533,7 +543,7 @@ function openScheduleServiceModal() {
 async function loadEquipmentForService() {
     try {
         const response = await apiService.getMaterials();
-        const equipment = response.data || [];
+        const equipment = response.data || response.materiels || response || [];
         const select = document.getElementById('serviceEquipment');
         
         select.innerHTML = '<option value="">Sélectionner un équipement</option>' +
@@ -593,7 +603,7 @@ async function submitScheduleService() {
 async function loadEquipmentRequests() {
     try {
         const response = await apiService.getAllEquipmentRequests();
-        const requests = response.data || [];
+        const requests = response.data || response.requests || response || [];
         renderEquipmentRequests(requests);
     } catch (error) {
         console.error('Error loading equipment requests:', error);
@@ -632,7 +642,7 @@ function renderEquipmentRequests(requests) {
 async function loadFaultReports() {
     try {
         const response = await apiService.getAllFaultReports();
-        const reports = response.data || [];
+        const reports = response.data || response.reports || response || [];
         renderFaultReports(reports);
     } catch (error) {
         console.error('Error loading fault reports:', error);

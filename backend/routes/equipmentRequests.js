@@ -9,7 +9,6 @@ const {
 } = require('../controllers/equipmentRequestController');
 const { protect, isAdmin, isTechnicalManager } = require('../middleware/authMiddleware');
 
-// Media employee routes
 router.route('/')
   .post(protect, createRequest)
   .get(protect, getUserRequests);
