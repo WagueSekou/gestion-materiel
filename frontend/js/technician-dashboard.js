@@ -290,9 +290,9 @@ function loadRepairs() {
     // Simulate API call
     setTimeout(() => {
         const repairs = [
-            { id: 1, materiel: 'PC Portable Dell', technique: 'Remplacement', pieces: 'Écran LCD', cout: 120.00, temps: 2.5, date: '2024-01-10' },
-            { id: 2, materiel: 'Caméra Sony HD', technique: 'Nettoyage', pieces: 'Aucune', cout: 0.00, temps: 1.0, date: '2024-01-08' },
-            { id: 3, materiel: 'Microphone Shure', technique: 'Réparation', pieces: 'Câble XLR', cout: 25.50, temps: 1.5, date: '2024-01-05' }
+            { id: 1, materiel: 'PC Portable Dell', technique: 'Remplacement', pieces: 'Écran LCD', cout: 78000, temps: 2.5, date: '2024-01-10' },
+            { id: 2, materiel: 'Caméra Sony HD', technique: 'Nettoyage', pieces: 'Aucune', cout: 0, temps: 1.0, date: '2024-01-08' },
+            { id: 3, materiel: 'Microphone Shure', technique: 'Réparation', pieces: 'Câble XLR', cout: 16575, temps: 1.5, date: '2024-01-05' }
         ];
         
         renderRepairs(repairs);
@@ -312,7 +312,7 @@ function renderRepairs(repairs) {
                     <th>Matériel</th>
                     <th>Technique</th>
                     <th>Pièces utilisées</th>
-                    <th>Coût (€)</th>
+                    <th>Coût (FCFA)</th>
                     <th>Temps (h)</th>
                     <th>Date</th>
                     <th>Actions</th>
@@ -325,7 +325,7 @@ function renderRepairs(repairs) {
                         <td>${item.materiel}</td>
                         <td>${item.technique}</td>
                         <td>${item.pieces}</td>
-                        <td>${item.cout.toFixed(2)}</td>
+                        <td>${item.cout.toLocaleString('fr-FR')}</td>
                         <td>${item.temps}</td>
                         <td>${item.date}</td>
                         <td class="actions">
@@ -351,10 +351,10 @@ function loadInventory() {
     // Simulate API call
     setTimeout(() => {
         const parts = [
-            { id: 1, nom: 'Écran LCD 15.6"', categorie: 'Écrans', quantite: 5, seuil: 2, prix: 89.99 },
-            { id: 2, nom: 'Clavier USB', categorie: 'Claviers', quantite: 8, seuil: 3, prix: 25.50 },
-            { id: 3, nom: 'Batterie Li-ion', categorie: 'Batteries', quantite: 1, seuil: 2, prix: 45.00 },
-            { id: 4, nom: 'Câble HDMI 2m', categorie: 'Câbles', quantite: 12, seuil: 5, prix: 8.99 }
+            { id: 1, nom: 'Écran LCD 15.6"', categorie: 'Écrans', quantite: 5, seuil: 2, prix: 58495 },
+            { id: 2, nom: 'Clavier USB', categorie: 'Claviers', quantite: 8, seuil: 3, prix: 16575 },
+            { id: 3, nom: 'Batterie Li-ion', categorie: 'Batteries', quantite: 1, seuil: 2, prix: 29250 },
+            { id: 4, nom: 'Câble HDMI 2m', categorie: 'Câbles', quantite: 12, seuil: 5, prix: 5844 }
         ];
         
         renderParts(parts);
@@ -375,7 +375,7 @@ function renderParts(parts) {
                     <th>Catégorie</th>
                     <th>Quantité</th>
                     <th>Seuil</th>
-                    <th>Prix (€)</th>
+                    <th>Prix (FCFA)</th>
                     <th>Statut</th>
                     <th>Actions</th>
                 </tr>
@@ -388,7 +388,7 @@ function renderParts(parts) {
                         <td>${item.categorie}</td>
                         <td>${item.quantite}</td>
                         <td>${item.seuil}</td>
-                        <td>${item.prix.toFixed(2)}</td>
+                        <td>${item.prix.toLocaleString('fr-FR')}</td>
                         <td>
                             <span class="badge badge-${item.quantite <= item.seuil ? 'urgent' : 'normale'}">
                                 ${item.quantite <= item.seuil ? 'Stock faible' : 'Disponible'}
@@ -524,10 +524,10 @@ function loadParts() {
     // Simulate API call
     setTimeout(() => {
         const parts = [
-            { id: 1, nom: 'Écran LCD 15.6"', categorie: 'Écrans', quantite: 5, seuil: 2, prix: 89.99, valeur: 449.95 },
-            { id: 2, nom: 'Clavier USB', categorie: 'Claviers', quantite: 8, seuil: 3, prix: 25.50, valeur: 204.00 },
-            { id: 3, nom: 'Batterie Li-ion', categorie: 'Batteries', quantite: 1, seuil: 2, prix: 45.00, valeur: 45.00 },
-            { id: 4, nom: 'Câble HDMI 2m', categorie: 'Câbles', quantite: 12, seuil: 5, prix: 8.99, valeur: 107.88 }
+            { id: 1, nom: 'Écran LCD 15.6"', categorie: 'Écrans', quantite: 5, seuil: 2, prix: 58495, valeur: 292475 },
+            { id: 2, nom: 'Clavier USB', categorie: 'Claviers', quantite: 8, seuil: 3, prix: 16575, valeur: 132600 },
+            { id: 3, nom: 'Batterie Li-ion', categorie: 'Batteries', quantite: 1, seuil: 2, prix: 29250, valeur: 29250 },
+            { id: 4, nom: 'Câble HDMI 2m', categorie: 'Câbles', quantite: 12, seuil: 5, prix: 5844, valeur: 70128 }
         ];
         
         renderPartsDetail(parts);
@@ -548,8 +548,8 @@ function renderPartsDetail(parts) {
                     <th>Catégorie</th>
                     <th>Quantité</th>
                     <th>Seuil</th>
-                    <th>Prix unitaire (€)</th>
-                    <th>Valeur totale (€)</th>
+                    <th>Prix unitaire (FCFA)</th>
+                    <th>Valeur totale (FCFA)</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -561,8 +561,8 @@ function renderPartsDetail(parts) {
                         <td>${item.categorie}</td>
                         <td>${item.quantite}</td>
                         <td>${item.seuil}</td>
-                        <td>${item.prix.toFixed(2)}</td>
-                        <td>${item.valeur.toFixed(2)}</td>
+                        <td>${item.prix.toLocaleString('fr-FR')}</td>
+                        <td>${item.valeur.toLocaleString('fr-FR')}</td>
                         <td class="actions">
                             <button class="btn-edit" onclick="editPart(${item.id})">
                                 <i class="fas fa-edit"></i>

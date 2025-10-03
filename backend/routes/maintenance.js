@@ -10,6 +10,7 @@ const {
   completeMaintenance,
   cancelMaintenance,
   getTechnicianMaintenance,
+  getUserMaintenance,
   getMaintenanceStats,
   getMaintenanceSchedule,
   getPreventiveMaintenanceDue
@@ -36,6 +37,10 @@ router.route('/:id/complete')
 
 router.route('/:id/cancel')
   .post(isAdminOrTechnician, cancelMaintenance);
+
+// User-specific routes
+router.route('/user/:userId')
+  .get(getUserMaintenance);
 
 // Technician-specific routes
 router.route('/technician/:technicianId')

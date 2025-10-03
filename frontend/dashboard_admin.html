@@ -10,7 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body>
+<body class="dashboard-admin">
   <!-- Sidebar -->
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -32,7 +32,7 @@
         </a>
         <a href="#" class="menu-item" data-section="users">
           <i class="fas fa-users"></i>
-          <span>Utilisateurs</span>
+          <span>Employés Média</span>
         </a>
         <a href="#" class="menu-item" data-section="materials">
           <i class="fas fa-desktop"></i>
@@ -118,7 +118,7 @@
             </div>
             <div class="stat-content">
               <h3 class="stat-number">0</h3>
-              <p class="stat-label">Utilisateurs actifs</p>
+              <p class="stat-label">Employés média actifs</p>
             </div>
             <div class="stat-trend positive">
               <i class="fas fa-arrow-up"></i>
@@ -175,7 +175,7 @@
           <div class="actions-grid">
             <button class="action-btn" onclick="showSection('users')">
               <i class="fas fa-user-plus"></i>
-              <span>Ajouter un utilisateur</span>
+              <span>Ajouter un employé média</span>
             </button>
             <button class="action-btn" onclick="showSection('materials')">
               <i class="fas fa-plus"></i>
@@ -201,7 +201,7 @@
                 <i class="fas fa-user-plus"></i>
               </div>
               <div class="activity-content">
-                <div class="activity-title">Nouvel utilisateur inscrit</div>
+                <div class="activity-title">Nouvel employé média inscrit</div>
                 <div class="activity-details">
                   <span class="activity-user">Marie Dubois</span>
                   <span class="activity-time">Il y a 2 heures</span>
@@ -250,7 +250,7 @@
         <!-- System Status -->
         <div class="summary-stats">
           <div class="summary-card">
-            <h4>Utilisateurs en ligne</h4>
+            <h4>Employés média en ligne</h4>
             <p class="summary-number">8</p>
             <p class="summary-period">Actuellement</p>
           </div>
@@ -270,10 +270,10 @@
       <!-- Users Section -->
       <section id="users-section" class="content-section">
         <div class="section-header">
-          <h2>Gestion des utilisateurs</h2>
+          <h2>Gestion des employés média</h2>
           <button class="btn-primary" onclick="addUser()">
             <i class="fas fa-plus"></i>
-            Ajouter un utilisateur
+            Ajouter un employé média
           </button>
         </div>
         <div id="user-list" class="data-table-container">
@@ -374,7 +374,7 @@
           <div class="chatbot-messages" id="chatbotMessages">
             <div class="message bot-message">
               <div class="message-content">
-                <p>Bonjour ! Je suis votre assistant intelligent pour l'administration. Je peux vous aider avec la gestion des utilisateurs, les mises à jour système, les statistiques, et bien plus encore. Comment puis-je vous aider aujourd'hui ?</p>
+                <p>Bonjour ! Je suis votre assistant intelligent pour l'administration. Je peux vous aider avec la gestion des employés média, les mises à jour système, les statistiques, et bien plus encore. Comment puis-je vous aider aujourd'hui ?</p>
               </div>
             </div>
           </div>
@@ -393,7 +393,7 @@
   <div id="createUserModal" class="modal" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Ajouter un utilisateur</h3>
+        <h3>Ajouter un employé média</h3>
         <button class="modal-close" onclick="closeModal('createUserModal')"><i class="fas fa-times"></i></button>
       </div>
       <form id="createUserForm" class="modal-form">
@@ -413,7 +413,7 @@
           <label for="cu_role">Rôle</label>
           <select id="cu_role" name="role" required>
             <option value="">Sélectionner un rôle</option>
-            <option value="utilisateur">Utilisateur</option>
+            <option value="utilisateurs>Employé Média</option>
             <option value="technicien">Technicien</option>
             <option value="technical_manager">Responsable Technique</option>
             <option value="admin">Administrateur</option>
@@ -433,7 +433,7 @@
   <div id="editUserModal" class="modal" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Modifier l'utilisateur</h3>
+        <h3>Modifier l'employé média</h3>
         <button class="modal-close" onclick="closeModal('editUserModal')"><i class="fas fa-times"></i></button>
       </div>
       <form id="editUserForm" class="modal-form">
@@ -449,7 +449,7 @@
         <div class="form-row">
           <label for="eu_role">Rôle</label>
           <select id="eu_role" name="role" required>
-            <option value="utilisateur">Utilisateur</option>
+            <option value="employe_media">Employé Média</option>
             <option value="technicien">Technicien</option>
             <option value="technical_manager">Responsable Technique</option>
             <option value="admin">Administrateur</option>
@@ -613,9 +613,9 @@
       </div>
       <form id="allocationForm" class="modal-form">
         <div class="form-row">
-          <label for="a_user">Utilisateur</label>
+          <label for="a_user">Employé Média</label>
           <select id="a_user" required>
-            <option value="">Sélectionner un utilisateur</option>
+            <option value="">Sélectionner un employé média</option>
           </select>
         </div>
         <div class="form-row">

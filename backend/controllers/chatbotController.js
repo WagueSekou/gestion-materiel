@@ -110,7 +110,7 @@ async function generateBotResponse(message, userRole, context) {
     fault: ['panne', 'problème', 'fault', 'erreur', 'bug', 'dysfonctionnement', 'ne marche pas', 'cassé', 'défaillant', 'signalement', 'rapport', 'défaillance', 'incident', 'dysfonctionne'],
     maintenance: ['maintenance', 'réparation', 'réparer', 'intervention', 'technicien', 'corriger', 'fix', 'réparer', 'réviser', 'vérifier', 'contrôler', 'entretien'],
     statistics: ['statistique', 'rapport', 'gestion', 'données', 'analyse', 'graphique', 'chiffre', 'nombre', 'total', 'pourcentage', 'métrique', 'performance', 'indicateur'],
-    user: ['utilisateur', 'user', 'compte', 'profil', 'connexion', 'mot de passe', 'authentification', 'login', 'se connecter'],
+    user: ['employe_media', 'employé média', 'user', 'compte', 'profil', 'connexion', 'mot de passe', 'authentification', 'login', 'se connecter'],
     schedule: ['planning', 'calendrier', 'horaire', 'rendez-vous', 'intervention', 'planifier', 'programmer', 'agenda', 'planification'],
     help: ['aide', 'help', 'comment', 'guide', 'tutoriel', 'assistance', 'support', 'que puis-je', 'que peux-je', 'comment faire', 'guide moi'],
     status: ['statut', 'état', 'situation', 'où en est', 'avancement', 'progression', 'suivi', 'suivre', 'vérifier'],
@@ -286,7 +286,7 @@ function handleSearchRequest(message, userRole, context) {
 function handleExportRequest(message, userRole, context) {
   const responses = {
     admin: {
-      content: "En tant qu'administrateur, vous pouvez exporter :\n\n📊 **Rapports et statistiques :**\n- Allez dans 'Statistiques' → Bouton 'Exporter PDF'\n- Choisissez le format (PDF ou Excel)\n- Sélectionnez les données à inclure\n\n📋 **Listes détaillées :**\n- Liste des utilisateurs\n- Inventaire des équipements\n- Historique des maintenances\n- Rapports d'allocations\n\n💾 **Formats disponibles :**\n- PDF pour les rapports formels\n- Excel pour l'analyse de données\n- CSV pour l'import dans d'autres systèmes\n\nQue souhaitez-vous exporter ?",
+      content: "En tant qu'administrateur, vous pouvez exporter :\n\n📊 **Rapports et statistiques :**\n- Allez dans 'Statistiques' → Bouton 'Exporter PDF'\n- Choisissez le format (PDF ou Excel)\n- Sélectionnez les données à inclure\n\n📋 **Listes détaillées :**\n- Liste des employés média\n- Inventaire des équipements\n- Historique des maintenances\n- Rapports d'allocations\n\n💾 **Formats disponibles :**\n- PDF pour les rapports formels\n- Excel pour l'analyse de données\n- CSV pour l'import dans d'autres systèmes\n\nQue souhaitez-vous exporter ?",
       context: { currentTask: 'export' }
     },
     technical_manager: {
@@ -358,7 +358,7 @@ function handleMaintenanceRequest(message, userRole, context) {
 function handleStatisticsRequest(message, userRole, context) {
   const responses = {
     admin: {
-      content: "En tant qu'administrateur, vous avez accès à toutes les statistiques :\n\n📊 **Tableau de bord principal :**\n- Vue d'ensemble des utilisateurs, équipements et maintenances\n- Graphiques en temps réel\n- Alertes et notifications\n\n📈 **Rapports détaillés :**\n- Statistiques des utilisateurs\n- Performance des équipements\n- Analyse des coûts de maintenance\n- Export PDF/Excel disponible\n\n👥 **Gestion des utilisateurs :**\n- Statistiques d'utilisation par rôle\n- Activité des utilisateurs\n- Gestion des permissions\n\nQue souhaitez-vous analyser ?",
+      content: "En tant qu'administrateur, vous avez accès à toutes les statistiques :\n\n📊 **Tableau de bord principal :**\n- Vue d'ensemble des employés média, équipements et maintenances\n- Graphiques en temps réel\n- Alertes et notifications\n\n📈 **Rapports détaillés :**\n- Statistiques des employés média\n- Performance des équipements\n- Analyse des coûts de maintenance\n- Export PDF/Excel disponible\n\n👥 **Gestion des employés média :**\n- Statistiques d'utilisation par rôle\n- Activité des employés média\n- Gestion des permissions\n\nQue souhaitez-vous analyser ?",
       context: { currentTask: 'statistics' }
     },
     technical_manager: {
@@ -377,7 +377,7 @@ function handleStatisticsRequest(message, userRole, context) {
 function handleUserManagementRequest(message, userRole, context) {
   const responses = {
     admin: {
-      content: "En tant qu'administrateur, je peux vous aider avec la gestion des utilisateurs :\n\n👥 **Gestion des comptes :**\n- Créer de nouveaux utilisateurs\n- Modifier les informations utilisateur\n- Supprimer des comptes\n- Gérer les rôles et permissions\n\n🔐 **Sécurité :**\n- Réinitialiser les mots de passe\n- Gérer les sessions actives\n- Surveiller l'activité des utilisateurs\n\n📊 **Statistiques utilisateurs :**\n- Nombre d'utilisateurs par rôle\n- Activité et connexions\n- Utilisation des fonctionnalités\n\nQue souhaitez-vous faire ?",
+      content: "En tant qu'administrateur, je peux vous aider avec la gestion des employés média :\n\n👥 **Gestion des comptes :**\n- Créer de nouveaux employés média\n- Modifier les informations des employés média\n- Supprimer des comptes\n- Gérer les rôles et permissions\n\n🔐 **Sécurité :**\n- Réinitialiser les mots de passe\n- Gérer les sessions actives\n- Surveiller l'activité des employés média\n\n📊 **Statistiques employés média :**\n- Nombre d'employés média par rôle\n- Activité et connexions\n- Utilisation des fonctionnalités\n\nQue souhaitez-vous faire ?",
       context: { currentTask: 'user_management' }
     },
     default: {
@@ -428,7 +428,7 @@ function handleStatusRequest(message, userRole, context) {
 function handleCreationRequest(message, userRole, context) {
   const responses = {
     admin: {
-      content: "En tant qu'administrateur, vous pouvez créer :\n\n👥 **Utilisateurs :**\n- Allez dans 'Utilisateurs' → 'Ajouter un utilisateur'\n- Remplissez les informations (nom, email, rôle)\n- Définissez un mot de passe temporaire\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → 'Ajouter un matériel'\n- Spécifiez le type, nom, numéro de série\n- Définissez la localisation et l'état\n\n📋 **Rapports :**\n- Générez des rapports personnalisés\n- Exportez les données en PDF/Excel\n\nQue souhaitez-vous créer ?",
+      content: "En tant qu'administrateur, vous pouvez créer :\n\n👥 **Employés média :**\n- Allez dans 'Utilisateurs' → 'Ajouter un utilisateur'\n- Remplissez les informations (nom, email, rôle)\n- Définissez un mot de passe temporaire\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → 'Ajouter un matériel'\n- Spécifiez le type, nom, numéro de série\n- Définissez la localisation et l'état\n\n📋 **Rapports :**\n- Générez des rapports personnalisés\n- Exportez les données en PDF/Excel\n\nQue souhaitez-vous créer ?",
       context: { currentTask: 'creation' }
     },
     default: {
@@ -451,7 +451,7 @@ function handleViewRequest(message, userRole, context) {
 function handleUpdateRequest(message, userRole, context) {
   const responses = {
     admin: {
-      content: "En tant qu'administrateur, vous pouvez modifier :\n\n👥 **Utilisateurs :**\n- Allez dans 'Utilisateurs' → Cliquez sur l'utilisateur\n- Modifiez les informations ou le rôle\n- Sauvegardez les changements\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → Cliquez sur l'équipement\n- Modifiez les informations (statut, localisation, etc.)\n- Mettez à jour les détails de maintenance\n\n📊 **Système :**\n- Mettez à jour les paramètres système\n- Modifiez les configurations\n\nQue souhaitez-vous modifier ?",
+      content: "En tant qu'administrateur, vous pouvez modifier :\n\n👥 **Employés média :**\n- Allez dans 'Utilisateurs' → Cliquez sur l'employé média\n- Modifiez les informations ou le rôle\n- Sauvegardez les changements\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → Cliquez sur l'équipement\n- Modifiez les informations (statut, localisation, etc.)\n- Mettez à jour les détails de maintenance\n\n📊 **Système :**\n- Mettez à jour les paramètres système\n- Modifiez les configurations\n\nQue souhaitez-vous modifier ?",
       context: { currentTask: 'updating' }
     },
     default: {
@@ -466,7 +466,7 @@ function handleUpdateRequest(message, userRole, context) {
 function handleDeleteRequest(message, userRole, context) {
   const responses = {
     admin: {
-      content: "⚠️ **Attention : Suppression d'éléments**\n\nEn tant qu'administrateur, vous pouvez supprimer :\n\n👥 **Utilisateurs :**\n- Allez dans 'Utilisateurs' → Cliquez sur l'utilisateur\n- Cliquez sur 'Supprimer' (action irréversible)\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → Cliquez sur l'équipement\n- Cliquez sur 'Supprimer' (vérifiez d'abord les allocations)\n\n⚠️ **Précautions :**\n- Vérifiez qu'il n'y a pas d'allocations actives\n- Assurez-vous que la suppression est nécessaire\n- Cette action est irréversible\n\nÊtes-vous sûr de vouloir supprimer quelque chose ?",
+      content: "⚠️ **Attention : Suppression d'éléments**\n\nEn tant qu'administrateur, vous pouvez supprimer :\n\n👥 **Employés média :**\n- Allez dans 'Utilisateurs' → Cliquez sur l'employé média\n- Cliquez sur 'Supprimer' (action irréversible)\n\n🔧 **Équipements :**\n- Allez dans 'Matériels' → Cliquez sur l'équipement\n- Cliquez sur 'Supprimer' (vérifiez d'abord les allocations)\n\n⚠️ **Précautions :**\n- Vérifiez qu'il n'y a pas d'allocations actives\n- Assurez-vous que la suppression est nécessaire\n- Cette action est irréversible\n\nÊtes-vous sûr de vouloir supprimer quelque chose ?",
       context: { currentTask: 'deletion' }
     },
     default: {
@@ -504,7 +504,7 @@ function handleQuestion(message, userRole, context) {
 function generateIntelligentResponse(message, userRole, context) {
   const suggestions = {
     admin: [
-      "Gérer les utilisateurs et leurs permissions",
+      "Gérer les employés média et leurs permissions",
       "Consulter les statistiques du système",
       "Créer ou modifier des équipements",
       "Exporter des rapports détaillés"

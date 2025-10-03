@@ -111,7 +111,7 @@ class ApiService {
         _id: localStorage.getItem('userId') || 'unknown',
         name: localStorage.getItem('userName') || 'Unknown User',
         email: localStorage.getItem('userEmail') || 'unknown@email.com',
-        role: localStorage.getItem('role') || 'utilisateur'
+        role: localStorage.getItem('role') || 'employe_media'
       };
     }
   }
@@ -280,6 +280,12 @@ class ApiService {
   async getMaintenance(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     const endpoint = queryString ? `/maintenance?${queryString}` : '/maintenance';
+    return await this.request(endpoint);
+  }
+
+  async getUserMaintenance(userId, params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    const endpoint = queryString ? `/maintenance/user/${userId}?${queryString}` : `/maintenance/user/${userId}`;
     return await this.request(endpoint);
   }
 

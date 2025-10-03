@@ -28,6 +28,8 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         window.location.href = "dashboard_technicien.html";
       } else if (data.role === "technical_manager") {
         window.location.href = "dashboard_technical_manager.html";
+      } else if (data.role === "employe_media") {
+        window.location.href = "dashboard_utilisateur.html";
       } else {
         window.location.href = "dashboard_utilisateur.html";
       }

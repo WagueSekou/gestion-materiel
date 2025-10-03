@@ -12,7 +12,7 @@ exports.getAdminDashboard = async (req, res) => {
     const totalUsers = await User.countDocuments();
     const adminUsers = await User.countDocuments({ role: 'admin' });
     const technicianUsers = await User.countDocuments({ role: 'technicien' });
-    const regularUsers = await User.countDocuments({ role: 'utilisateur' });
+    const regularUsers = await User.countDocuments({ role: 'employe_media' });
 
     // Get material statistics
     const totalMateriels = await Materiel.countDocuments();

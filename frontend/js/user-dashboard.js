@@ -205,18 +205,41 @@ async function loadAllocations() {
     container.innerHTML = '<div class="loading-spinner">Chargement des allocations...</div>';
     
     try {
-        // Try to get current user, fallback to localStorage if API fails
-        let userId;
+        // Get current user ID from multiple sources
+        let userId = null;
+        
+        // First try to get from API
         try {
             const currentUser = await apiService.getCurrentUser();
-            userId = currentUser._id;
+            userId = currentUser._id || currentUser.id;
+            console.log('Got user ID from API:', userId);
         } catch (userError) {
-            console.warn('Could not get current user from API, using localStorage:', userError);
-            userId = localStorage.getItem('userId');
+            console.warn('Could not get current user from API:', userError);
         }
         
+        // Fallback to localStorage
         if (!userId) {
-            throw new Error('User ID not found');
+            userId = localStorage.getItem('userId') || localStorage.getItem('user_id');
+            console.log('Got user ID from localStorage:', userId);
+        }
+        
+        // Last resort: try to get from token
+        if (!userId) {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    // Decode JWT token to get user ID
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    userId = payload.id;
+                    console.log('Got user ID from token:', userId);
+                } catch (tokenError) {
+                    console.warn('Could not decode token:', tokenError);
+                }
+            }
+        }
+        
+        if (!userId || userId === 'unknown') {
+            throw new Error('User ID not found. Please log in again.');
         }
         
         console.log('Fetching allocations for user:', userId);
@@ -224,13 +247,31 @@ async function loadAllocations() {
         console.log('Allocations response:', allocationsData);
         
         // Handle different response formats
-        const allocations = allocationsData.allocations || allocationsData.data || allocationsData || [];
+        let allocations = [];
+        if (allocationsData) {
+            if (Array.isArray(allocationsData)) {
+                allocations = allocationsData;
+            } else if (allocationsData.allocations) {
+                allocations = allocationsData.allocations;
+            } else if (allocationsData.data) {
+                allocations = allocationsData.data;
+            }
+        }
+        
         console.log('Processed allocations:', allocations);
         renderAllocations(allocations);
     } catch (error) {
         console.error('Error loading allocations:', error);
-        showToast('Erreur lors du chargement des allocations', 'error');
-        container.innerHTML = '<p class="error-message">Erreur de chargement</p>';
+        showToast('Erreur lors du chargement des allocations: ' + error.message, 'error');
+        container.innerHTML = `
+            <div class="error-message">
+                <p>Erreur de chargement des allocations</p>
+                <p class="error-details">${error.message}</p>
+                <button class="btn-primary" onclick="loadAllocations()">
+                    <i class="fas fa-refresh"></i> Réessayer
+                </button>
+            </div>
+        `;
     }
 }
 
@@ -240,72 +281,13 @@ function renderAllocations(allocations) {
     if (!container) return;
     
     if (!allocations || allocations.length === 0) {
-        container.innerHTML = '<p class="no-data">Aucune allocation trouvée</p>';
-        return;
-    }
-    
-    container.innerHTML = `
-        <div class="data-table">
-            <div class="table-header">
-                <div class="table-row">
-                    <div class="table-cell">Matériel</div>
-                    <div class="table-cell">Date de début</div>
-                    <div class="table-cell">Date de fin</div>
-                    <div class="table-cell">Statut</div>
-                    <div class="table-cell">Actions</div>
-                </div>
+        container.innerHTML = `
+            <div class="no-data">
+                <i class="fas fa-inbox"></i>
+                <p>Aucune allocation trouvée</p>
+                <p class="no-data-subtitle">Vous n'avez pas encore d'allocations d'équipement</p>
             </div>
-            <div class="table-body">
-                ${allocations.map(allocation => `
-                    <div class="table-row">
-                        <div class="table-cell">${allocation.materiel?.name || allocation.materiel || 'N/A'}</div>
-                        <div class="table-cell">${allocation.allocationDate ? new Date(allocation.allocationDate).toLocaleDateString() : 'N/A'}</div>
-                        <div class="table-cell">${allocation.expectedReturnDate ? new Date(allocation.expectedReturnDate).toLocaleDateString() : 'N/A'}</div>
-                        <div class="table-cell">
-                            <span class="badge badge-${allocation.status || 'pending'}">${allocation.status || 'pending'}</span>
-                        </div>
-                        <div class="table-cell">
-                            <div class="actions">
-                                <button class="btn-edit" onclick="editAllocation('${allocation._id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-delete" onclick="deleteAllocation('${allocation._id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-}
-
-// Load maintenance
-async function loadMaintenance() {
-    const container = document.getElementById('listeMaintenance');
-    if (!container) return;
-    
-    container.innerHTML = '<div class="loading-spinner">Chargement de la maintenance...</div>';
-    
-    try {
-        const currentUser = await apiService.getCurrentUser();
-        const maintenanceData = await apiService.getMaintenance({ requestedBy: currentUser._id });
-        renderMaintenance(maintenanceData.maintenance || maintenanceData);
-    } catch (error) {
-        console.error('Error loading maintenance:', error);
-        showToast('Erreur lors du chargement de la maintenance', 'error');
-        container.innerHTML = '<p class="error-message">Erreur de chargement</p>';
-    }
-}
-
-// Render maintenance
-function renderMaintenance(maintenance) {
-    const container = document.getElementById('listeMaintenance');
-    if (!container) return;
-    
-    if (!maintenance || maintenance.length === 0) {
-        container.innerHTML = '<p class="no-data">Aucune maintenance trouvée</p>';
+        `;
         return;
     }
     
@@ -315,37 +297,258 @@ function renderMaintenance(maintenance) {
                 <div class="table-row">
                     <div class="table-cell">Matériel</div>
                     <div class="table-cell">Type</div>
-                    <div class="table-cell">Priorité</div>
+                    <div class="table-cell">Date de début</div>
+                    <div class="table-cell">Date de fin prévue</div>
                     <div class="table-cell">Statut</div>
                     <div class="table-cell">Actions</div>
                 </div>
             </div>
             <div class="table-body">
-                ${maintenance.map(item => `
-                    <div class="table-row">
-                        <div class="table-cell">${item.materiel?.name || item.materiel || 'N/A'}</div>
-                        <div class="table-cell">${item.type || 'N/A'}</div>
-                        <div class="table-cell">
-                            <span class="badge badge-${item.priority || 'normale'}">${item.priority || 'normale'}</span>
-                        </div>
-                        <div class="table-cell">
-                            <span class="badge badge-${item.status || 'en_attente'}">${item.status || 'en_attente'}</span>
-                        </div>
-                        <div class="table-cell">
-                            <div class="actions">
-                                <button class="btn-edit" onclick="editMaintenance('${item._id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-delete" onclick="deleteMaintenance('${item._id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                ${allocations.map(allocation => {
+                    const materielName = allocation.materiel?.name || allocation.materiel || 'N/A';
+                    const materielType = allocation.materiel?.type || 'N/A';
+                    const startDate = allocation.allocationDate ? new Date(allocation.allocationDate).toLocaleDateString('fr-FR') : 'N/A';
+                    const endDate = allocation.expectedReturnDate ? new Date(allocation.expectedReturnDate).toLocaleDateString('fr-FR') : 'N/A';
+                    const status = allocation.status || 'pending';
+                    const statusClass = status.toLowerCase().replace('_', '-');
+                    
+                    return `
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <div class="materiel-info">
+                                    <strong>${materielName}</strong>
+                                    ${allocation.materiel?.serialNumber ? `<br><small>SN: ${allocation.materiel.serialNumber}</small>` : ''}
+                                </div>
+                            </div>
+                            <div class="table-cell">${materielType}</div>
+                            <div class="table-cell">${startDate}</div>
+                            <div class="table-cell">${endDate}</div>
+                            <div class="table-cell">
+                                <span class="badge badge-${statusClass}">${getStatusText(status)}</span>
+                            </div>
+                            <div class="table-cell">
+                                <div class="actions">
+                                    <button class="btn-edit" onclick="viewAllocationDetails('${allocation._id}')" title="Voir les détails">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    ${status === 'pending' ? `
+                                        <button class="btn-delete" onclick="cancelAllocation('${allocation._id}')" title="Annuler">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    ` : ''}
+                                    ${status === 'active' ? `
+                                        <button class="btn-secondary" onclick="requestReturn('${allocation._id}')" title="Demander le retour">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `).join('')}
+                    `;
+                }).join('')}
             </div>
         </div>
     `;
+}
+
+// Helper function to get status text in French
+function getStatusText(status) {
+    const statusMap = {
+        'pending': 'En attente',
+        'approved': 'Approuvée',
+        'active': 'Active',
+        'returned': 'Retournée',
+        'cancelled': 'Annulée',
+        'rejected': 'Rejetée'
+    };
+    return statusMap[status] || status;
+}
+
+// Load maintenance
+async function loadMaintenance() {
+    const container = document.getElementById('listeMaintenance');
+    if (!container) return;
+    
+    container.innerHTML = '<div class="loading-spinner">Chargement des signalements...</div>';
+    
+    try {
+        // Get current user ID from multiple sources
+        let userId = null;
+        
+        // First try to get from API
+        try {
+            const currentUser = await apiService.getCurrentUser();
+            userId = currentUser._id || currentUser.id;
+            console.log('Got user ID from API for maintenance:', userId);
+        } catch (userError) {
+            console.warn('Could not get current user from API:', userError);
+        }
+        
+        // Fallback to localStorage
+        if (!userId) {
+            userId = localStorage.getItem('userId') || localStorage.getItem('user_id');
+            console.log('Got user ID from localStorage for maintenance:', userId);
+        }
+        
+        // Last resort: try to get from token
+        if (!userId) {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    // Decode JWT token to get user ID
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    userId = payload.id;
+                    console.log('Got user ID from token for maintenance:', userId);
+                } catch (tokenError) {
+                    console.warn('Could not decode token:', tokenError);
+                }
+            }
+        }
+        
+        if (!userId || userId === 'unknown') {
+            throw new Error('User ID not found. Please log in again.');
+        }
+        
+        console.log('Fetching maintenance for user:', userId);
+        const maintenanceData = await apiService.getUserMaintenance(userId);
+        console.log('Maintenance response:', maintenanceData);
+        
+        // Handle different response formats
+        let maintenance = [];
+        if (maintenanceData) {
+            if (Array.isArray(maintenanceData)) {
+                maintenance = maintenanceData;
+            } else if (maintenanceData.maintenance) {
+                maintenance = maintenanceData.maintenance;
+            } else if (maintenanceData.data) {
+                maintenance = maintenanceData.data;
+            }
+        }
+        
+        console.log('Processed maintenance:', maintenance);
+        renderMaintenance(maintenance);
+    } catch (error) {
+        console.error('Error loading maintenance:', error);
+        showToast('Erreur lors du chargement des signalements: ' + error.message, 'error');
+        container.innerHTML = `
+            <div class="error-message">
+                <p>Erreur de chargement des signalements</p>
+                <p class="error-details">${error.message}</p>
+                <button class="btn-primary" onclick="loadMaintenance()">
+                    <i class="fas fa-refresh"></i> Réessayer
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Render maintenance
+function renderMaintenance(maintenance) {
+    const container = document.getElementById('listeMaintenance');
+    if (!container) return;
+    
+    if (!maintenance || maintenance.length === 0) {
+        container.innerHTML = `
+            <div class="no-data">
+                <i class="fas fa-wrench"></i>
+                <p>Aucun signalement trouvé</p>
+                <p class="no-data-subtitle">Vous n'avez pas encore signalé de problèmes d'équipement</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="data-table">
+            <div class="table-header">
+                <div class="table-row">
+                    <div class="table-cell">Équipement</div>
+                    <div class="table-cell">Type</div>
+                    <div class="table-cell">Priorité</div>
+                    <div class="table-cell">Statut</div>
+                    <div class="table-cell">Date</div>
+                    <div class="table-cell">Actions</div>
+                </div>
+            </div>
+            <div class="table-body">
+                ${maintenance.map(item => {
+                    const materielName = item.materiel?.name || item.materiel || 'N/A';
+                    const materielType = item.materiel?.type || 'N/A';
+                    const priority = item.priority || 'normale';
+                    const status = item.status || 'en_attente';
+                    const createdDate = item.createdAt ? new Date(item.createdAt).toLocaleDateString('fr-FR') : 'N/A';
+                    const priorityClass = priority.toLowerCase().replace('_', '-');
+                    const statusClass = status.toLowerCase().replace('_', '-');
+                    
+                    return `
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <div class="materiel-info">
+                                    <strong>${materielName}</strong>
+                                    ${item.materiel?.serialNumber ? `<br><small>SN: ${item.materiel.serialNumber}</small>` : ''}
+                                </div>
+                            </div>
+                            <div class="table-cell">${getMaintenanceTypeText(item.type)}</div>
+                            <div class="table-cell">
+                                <span class="badge badge-${priorityClass}">${getPriorityText(priority)}</span>
+                            </div>
+                            <div class="table-cell">
+                                <span class="badge badge-${statusClass}">${getMaintenanceStatusText(status)}</span>
+                            </div>
+                            <div class="table-cell">${createdDate}</div>
+                            <div class="table-cell">
+                                <div class="actions">
+                                    <button class="btn-edit" onclick="viewMaintenanceDetails('${item._id}')" title="Voir les détails">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    ${status === 'en_attente' ? `
+                                        <button class="btn-delete" onclick="cancelMaintenance('${item._id}')" title="Annuler">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        </div>
+    `;
+}
+
+// Helper function to get maintenance type text in French
+function getMaintenanceTypeText(type) {
+    const typeMap = {
+        'preventive': 'Préventive',
+        'corrective': 'Corrective',
+        'urgent': 'Urgente',
+        'routine': 'Routine'
+    };
+    return typeMap[type] || type || 'N/A';
+}
+
+// Helper function to get priority text in French
+function getPriorityText(priority) {
+    const priorityMap = {
+        'low': 'Faible',
+        'normal': 'Normale',
+        'high': 'Élevée',
+        'urgent': 'Urgente',
+        'critique': 'Critique'
+    };
+    return priorityMap[priority] || priority || 'Normale';
+}
+
+// Helper function to get maintenance status text in French
+function getMaintenanceStatusText(status) {
+    const statusMap = {
+        'en_attente': 'En attente',
+        'en_cours': 'En cours',
+        'terminee': 'Terminée',
+        'annulee': 'Annulée',
+        'en_attente_pieces': 'En attente de pièces'
+    };
+    return statusMap[status] || status;
 }
 
 // Load reporting
@@ -522,8 +725,8 @@ function updateUserInfo() {
     const userName = document.querySelector('.user-name');
     const userRole = document.querySelector('.user-role');
     
-    if (userName) userName.textContent = 'Utilisateur';
-    if (userRole) userRole.textContent = 'Utilisateur';
+    if (userName) userName.textContent = 'Employé Média';
+    if (userRole) userRole.textContent = 'Employé Média';
 }
 
 // Toggle sidebar
@@ -605,8 +808,65 @@ function deleteAllocation(id) {
     }
 }
 
+// View allocation details
+function viewAllocationDetails(allocationId) {
+    showToast(`Affichage des détails de l'allocation ${allocationId}`, 'info');
+    // TODO: Implement allocation details modal
+}
+
+// Cancel allocation
+async function cancelAllocation(allocationId) {
+    if (confirm('Êtes-vous sûr de vouloir annuler cette allocation ?')) {
+        try {
+            await apiService.cancelAllocation(allocationId);
+            showToast('Allocation annulée avec succès', 'success');
+            loadAllocations();
+        } catch (error) {
+            console.error('Error cancelling allocation:', error);
+            showToast('Erreur lors de l\'annulation de l\'allocation', 'error');
+        }
+    }
+}
+
+// Request return
+async function requestReturn(allocationId) {
+    if (confirm('Voulez-vous demander le retour de cet équipement ?')) {
+        try {
+            await apiService.returnAllocation(allocationId, {
+                returnCondition: 'good',
+                returnNotes: 'Demande de retour par l\'utilisateur'
+            });
+            showToast('Demande de retour envoyée avec succès', 'success');
+            loadAllocations();
+        } catch (error) {
+            console.error('Error requesting return:', error);
+            showToast('Erreur lors de la demande de retour', 'error');
+        }
+    }
+}
+
 function editMaintenance(id) {
     showToast(`Modifier maintenance ${id}`, 'info');
+}
+
+// View maintenance details
+function viewMaintenanceDetails(maintenanceId) {
+    showToast(`Affichage des détails du signalement ${maintenanceId}`, 'info');
+    // TODO: Implement maintenance details modal
+}
+
+// Cancel maintenance
+async function cancelMaintenance(maintenanceId) {
+    if (confirm('Êtes-vous sûr de vouloir annuler ce signalement ?')) {
+        try {
+            await apiService.cancelMaintenance(maintenanceId);
+            showToast('Signalement annulé avec succès', 'success');
+            loadMaintenance();
+        } catch (error) {
+            console.error('Error cancelling maintenance:', error);
+            showToast('Erreur lors de l\'annulation du signalement', 'error');
+        }
+    }
 }
 
 function deleteMaintenance(id) {

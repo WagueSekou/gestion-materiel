@@ -18,6 +18,7 @@ exports.getMaintenance = async (req, res) => {
     if (req.query.priority) filter.priority = req.query.priority;
     if (req.query.technicianId) filter.technician = req.query.technicianId;
     if (req.query.materielId) filter.materiel = req.query.materielId;
+    if (req.query.requestedBy) filter.requestedBy = req.query.requestedBy;
 
     // Build sort object
     const sort = {};
@@ -378,6 +379,60 @@ exports.getTechnicianMaintenance = async (req, res) => {
     });
   } catch (error) {
     console.error('Get technician maintenance error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Get user's maintenance records
+// @route   GET /api/maintenance/user/:userId
+// @access  Private
+exports.getUserMaintenance = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Check if user can access this data
+    if (req.user.role !== 'admin' && req.user.role !== 'technicien' && req.user.id !== userId) {
+      return res.status(403).json({ 
+        message: 'Not authorized to access this data' 
+      });
+    }
+
+    const filter = { requestedBy: userId };
+    if (req.query.status) filter.status = req.query.status;
+    if (req.query.type) filter.type = req.query.type;
+    if (req.query.priority) filter.priority = req.query.priority;
+
+    const sort = {};
+    if (req.query.sortBy) {
+      sort[req.query.sortBy] = req.query.sortOrder === 'desc' ? -1 : 1;
+    } else {
+      sort.createdAt = -1;
+    }
+
+    const maintenance = await Maintenance.find(filter)
+      .populate('materiel', 'name type serialNumber')
+      .populate('technician', 'name email')
+      .populate('requestedBy', 'name email')
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Maintenance.countDocuments(filter);
+
+    res.json({
+      maintenance,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalItems: total,
+        itemsPerPage: limit
+      }
+    });
+  } catch (error) {
+    console.error('Get user maintenance error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };

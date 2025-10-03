@@ -66,7 +66,7 @@ const authorize = (...roles) => {
 // Specific role checks (shortcuts)
 const isAdmin = authorize('admin');
 const isTechnician = authorize('technicien');
-const isUser = authorize('utilisateur');
+const isUser = authorize('employe_media');
 const isTechnicalManager = authorize('technical_manager');
 const isAdminOrTechnician = authorize('admin', 'technicien');
 const isAdminOrTechnicalManager = authorize('admin', 'technical_manager');

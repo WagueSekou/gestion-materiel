@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary-color: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary-color: #64748b;
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #94a3b8;
   --success-color: #10b981;
   --error-color: #ef4444;
   --warning-color: #f59e0b;
-  --background-color: #f8fafc;
-  --surface-color: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
+  --background-color: #0f172a;
+  --surface-color: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
   --sidebar-width: 280px;
   --header-height: 70px;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
 }
 
 * {
@@ -32,6 +32,16 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* Force dark mode for all dashboards */
+body, 
+.dashboard-admin,
+.dashboard-technician,
+.dashboard-user,
+.dashboard-technical-manager {
+  background-color: var(--background-color) !important;
+  color: var(--text-primary) !important;
 }
 
 /* Layout */
@@ -2443,15 +2453,108 @@ body {
   font-weight: 500 !important;
 }
 
-/* Dark mode support - FIXED */
-@media (prefers-color-scheme: dark) {
-  .technical-manager-dashboard {
-    --background-color: #0f172a !important;
-    --surface-color: #1e293b !important;
-    --text-primary: #f1f5f9 !important;
-    --text-secondary: #94a3b8 !important;
-    --border-color: #334155 !important;
-  }
+/* Dark mode support - FORCED FOR ALL DASHBOARDS */
+.dashboard-admin,
+.dashboard-technician,
+.dashboard-user,
+.dashboard-technical-manager,
+.technical-manager-dashboard {
+  --background-color: #0f172a !important;
+  --surface-color: #1e293b !important;
+  --text-primary: #f1f5f9 !important;
+  --text-secondary: #94a3b8 !important;
+  --border-color: #334155 !important;
+}
+
+/* Force dark mode for all dashboard components */
+.dashboard-admin .dashboard-card,
+.dashboard-admin .form-card,
+.dashboard-admin .data-section,
+.dashboard-admin .modal-content,
+.dashboard-admin .table-container,
+.dashboard-admin .stats-grid,
+.dashboard-admin .stat-card {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dashboard-admin .table-header,
+.dashboard-admin .table-body,
+.dashboard-admin .table-row,
+.dashboard-admin .table-cell {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dashboard-admin input,
+.dashboard-admin select,
+.dashboard-admin textarea {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dashboard-admin input:focus,
+.dashboard-admin select:focus,
+.dashboard-admin textarea:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Apply same dark mode styling to all dashboard types */
+.dashboard-technician .dashboard-card,
+.dashboard-technician .form-card,
+.dashboard-technician .data-section,
+.dashboard-technician .modal-content,
+.dashboard-technician .table-container,
+.dashboard-technician .stats-grid,
+.dashboard-technician .stat-card,
+.dashboard-user .dashboard-card,
+.dashboard-user .form-card,
+.dashboard-user .data-section,
+.dashboard-user .modal-content,
+.dashboard-user .table-container,
+.dashboard-user .stats-grid,
+.dashboard-user .stat-card,
+.dashboard-technical-manager .dashboard-card,
+.dashboard-technical-manager .form-card,
+.dashboard-technical-manager .data-section,
+.dashboard-technical-manager .modal-content,
+.dashboard-technical-manager .table-container,
+.dashboard-technical-manager .stats-grid,
+.dashboard-technical-manager .stat-card {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dashboard-technician input,
+.dashboard-technician select,
+.dashboard-technician textarea,
+.dashboard-user input,
+.dashboard-user select,
+.dashboard-user textarea,
+.dashboard-technical-manager input,
+.dashboard-technical-manager select,
+.dashboard-technical-manager textarea {
+  background-color: var(--surface-color) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dashboard-technician input:focus,
+.dashboard-technician select:focus,
+.dashboard-technician textarea:focus,
+.dashboard-user input:focus,
+.dashboard-user select:focus,
+.dashboard-user textarea:focus,
+.dashboard-technical-manager input:focus,
+.dashboard-technical-manager select:focus,
+.dashboard-technical-manager textarea:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
 /* Logo Styling for Technical Manager - FIXED */
@@ -2884,6 +2987,154 @@ body {
 .toast-error { background: var(--error-color); }
 .toast-warning { background: var(--warning-color); }
 .toast-info { background: var(--primary-color); }
+
+/* Enhanced allocation display styles */
+.materiel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.materiel-info strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.materiel-info small {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+}
+
+.no-data i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-data-subtitle {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.error-details {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.badge-pending {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-approved {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-active {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badge-returned {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.badge-cancelled {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-rejected {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Maintenance status badges */
+.badge-en-attente {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-en-cours {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badge-terminee {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-annulee {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.badge-en-attente-pieces {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* Priority badges */
+.badge-faible {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.badge-normale {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badge-elevee {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-urgente {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-critique {
+  background-color: rgba(220, 38, 127, 0.1);
+  color: #dc2627;
+  border: 1px solid rgba(220, 38, 127, 0.2);
+}
 
 /* Responsive Design for New Features */
 @media (max-width: 768px) {

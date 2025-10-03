@@ -68,7 +68,7 @@ function updatePageTitle(sectionName) {
     const pageTitle = document.querySelector('.page-title');
     const titles = {
         'dashboard': 'Tableau de bord',
-        'users': 'Gestion des utilisateurs',
+        'users': 'Gestion des employés média',
         'materials': 'Gestion du matériel',
         'allocations': 'Gestion des allocations',
         'maintenance': 'Gestion de la maintenance',
